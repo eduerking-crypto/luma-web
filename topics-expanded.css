@@ -1,0 +1,406 @@
+/* Topics Explorer Styles */
+.topic-explorer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+}
+
+.te-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.te-header h1 {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.te-header p {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.te-controls {
+  margin-bottom: 20px;
+}
+
+.te-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: end;
+  padding: 20px;
+  background: var(--pale);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+
+.te-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.te-form select,
+.te-form input {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.te-form select:focus,
+.te-form input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px var(--violet-10);
+}
+
+.te-form .solid-button {
+  height: 44px;
+  justify-self: end;
+}
+
+.te-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.te-loading .l-icon {
+  animation: spin 1s linear infinite;
+  color: var(--violet);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.te-results {
+  display: grid;
+  gap: 16px;
+}
+
+.te-generated-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+  padding: 20px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.te-generated-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border-color: var(--violet-30);
+}
+
+.te-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.te-level-badge,
+.te-domain-badge,
+.te-gen-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.te-level-badge {
+  background: var(--indigo-10);
+  color: var(--indigo);
+}
+
+.te-domain-badge {
+  background: var(--violet-10);
+  color: var(--violet);
+}
+
+.te-gen-badge {
+  background: var(--green-10);
+  color: var(--green);
+}
+
+.te-generated-card h2 {
+  font-size: 1.3rem;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+.te-description {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.te-preview {
+  margin: 16px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.te-preview summary {
+  padding: 12px 16px;
+  background: var(--pale);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.te-preview summary::-webkit-details-marker {
+  display: none;
+}
+
+.te-preview summary::after {
+  content: "+";
+  float: right;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.te-preview[open] summary::after {
+  content: "−";
+}
+
+.te-passage {
+  padding: 16px;
+}
+
+.te-passage p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.te-passage .te-es {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.te-vocab {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  padding: 0 16px 16px;
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.te-vocab dt {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.te-vocab dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.te-quiz {
+  padding: 16px;
+  background: var(--blue-05);
+  border-top: 1px solid var(--line);
+}
+
+.te-quiz p {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+}
+
+.te-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.te-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  cursor: default;
+}
+
+.te-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.te-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.te-actions button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.te-save-btn {
+  background: white;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.te-save-btn:hover:not(:disabled) {
+  border-color: var(--violet);
+  color: var(--violet);
+}
+
+.te-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.te-use-btn.primary {
+  background: var(--violet);
+  border: none;
+  color: white;
+}
+
+.te-use-btn.primary:hover {
+  background: var(--violet-dark);
+}
+
+.te-error {
+  text-align: center;
+  padding: 32px;
+  color: var(--red);
+}
+
+.te-error .l-icon {
+  margin-bottom: 12px;
+}
+
+/* Saved topics */
+.te-saved {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.te-saved h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  margin-bottom: 16px;
+}
+
+.te-saved-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.te-saved-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  padding: 16px;
+  text-align: center;
+  transition: box-shadow 0.2s;
+}
+
+.te-saved-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.te-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--indigo-10);
+  color: var(--indigo);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.te-saved-card h3 {
+  font-size: 1rem;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.te-saved-card p {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.te-use-btn {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--violet);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.te-use-btn:hover {
+  background: var(--violet-dark);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .te-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .te-form .solid-button {
+    justify-self: stretch;
+  }
+  
+  .te-actions {
+    flex-direction: column;
+  }
+  
+  .te-vocab {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .te-saved-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "luma-ciencia",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "db:generate": "drizzle-kit generate",
+    "apk": "node actualizar-apk.mjs",
+    "apk:rebuilt": "node actualizar-apk.mjs https://luma.pages.dev"
+  },
+  "devDependencies": {
+    "drizzle-kit": "0.31.10",
+    "drizzle-orm": "0.45.2"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2"
+  }
+}
