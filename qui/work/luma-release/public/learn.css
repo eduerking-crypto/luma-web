@@ -1,0 +1,502 @@
+.lumalearn {
+  --ll-ink: #262438;
+  --ll-sub: #605e72;
+  --ll-line: #dfdeea;
+  --ll-accent: #5d4ac4;
+  --ll-soft: #f1eefc;
+  color: var(--ll-ink);
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding-bottom: 2.5rem;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.lumalearn *,
+.lumalearn *::before,
+.lumalearn *::after {
+  box-sizing: border-box;
+}
+.lumalearn [hidden] {
+  display: none !important;
+}
+.lumalearn :is(button, select, textarea, input) {
+  font: inherit;
+}
+.lumalearn :is(button, select) {
+  cursor: pointer;
+}
+.lumalearn :is(button, select, summary, a, textarea, input):focus-visible {
+  outline: 3px solid #7061ce;
+  outline-offset: 3px;
+}
+.lumalearn :is(button, select, input, textarea) {
+  color: var(--ll-ink);
+}
+.lumalearn :is(h1, h2, h3, p, blockquote, dl, dd) {
+  margin: 0;
+}
+.lumalearn h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.07;
+  letter-spacing: -0.055em;
+  font-weight: 690;
+}
+.lumalearn h2 {
+  font-size: 1.32rem;
+  line-height: 1.24;
+  letter-spacing: -0.034em;
+}
+.lumalearn h3,
+.lumalearn legend {
+  font-weight: 670;
+  font-size: 1.08rem;
+  line-height: 1.42;
+  letter-spacing: -0.015em;
+}
+.lumalearn p {
+  color: var(--ll-sub);
+}
+.lumalearn a {
+  color: var(--ll-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+.ll-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.1rem;
+  margin-bottom: 1.6rem;
+}
+.ll-head p {
+  margin-top: 0.75rem;
+  max-width: 66ch;
+}
+.ll-overline {
+  font-weight: 680;
+  color: var(--ll-accent);
+  font-size: 0.82rem;
+  line-height: 1.3;
+  margin-bottom: 0.55rem;
+}
+.ll-level,
+.ll-field,
+.ll-label {
+  font-size: 0.9rem;
+  font-weight: 630;
+}
+.ll-field {
+  display: grid;
+  gap: 0.38rem;
+}
+.ll-level {
+  display: flex;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  align-items: center;
+  color: var(--ll-sub);
+}
+.lumalearn select {
+  appearance: none;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%23656178' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    no-repeat right 0.8rem center;
+  border: 1px solid var(--ll-line);
+  border-radius: 11px;
+  padding: 0.6rem 2.15rem 0.6rem 0.85rem;
+  min-height: 42px;
+}
+.ll-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(215px, 0.9fr);
+  gap: 1.1rem;
+  align-items: start;
+}
+.ll-stack {
+  display: grid;
+  gap: 1.1rem;
+  align-content: start;
+  min-width: 0;
+}
+.ll-card {
+  background: white;
+  border: 1px solid var(--ll-line);
+  border-radius: 20px;
+  padding: clamp(1.1rem, 2.5vw, 1.7rem);
+  min-width: 0;
+  overflow-wrap: anywhere;
+  box-shadow: 0 3px 14px #30246204;
+}
+.ll-card > * + *,
+.ll-pad > * + *,
+.ll-review > * + *,
+.ll-quiz > * + * {
+  margin-top: 0.95rem;
+}
+.ll-card.ll-edge {
+  padding: 0;
+  overflow: hidden;
+}
+.ll-pad {
+  padding: clamp(1.1rem, 2.5vw, 1.7rem);
+}
+.ll-edge .ll-pad {
+  margin: 0;
+}
+.ll-reader-image {
+  height: clamp(105px, 12vw, 170px);
+  background: #17264b url("assets/ocean.webp") center 49% / cover;
+}
+.ll-reading p {
+  font-size: clamp(1.09rem, 1.6vw, 1.25rem);
+  line-height: 1.72;
+  color: var(--ll-ink);
+}
+.ll-reading p + p {
+  margin-top: 0.85rem;
+}
+.ll-row,
+.ll-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.ll-between {
+  justify-content: space-between;
+}
+.ll-actions {
+  align-items: flex-start;
+}
+.ll-chip {
+  display: inline-block;
+  padding: 0.34rem 0.7rem;
+  border-radius: 999px;
+  color: #544397;
+  background: var(--ll-soft);
+  font-size: 0.81rem;
+  font-weight: 650;
+}
+.ll-button,
+.ll-save {
+  border: 1px solid var(--ll-line);
+  border-radius: 10px;
+  background: #fff;
+  padding: 0.57rem 0.83rem;
+  font-size: 0.9rem !important;
+  line-height: 1.4;
+  font-weight: 620 !important;
+  min-height: 41px;
+}
+.ll-button:hover:not(:disabled),
+.ll-choice:hover:not(:disabled),
+.ll-save:hover {
+  border-color: #9d8de1;
+  background: #f8f6ff;
+}
+.lumalearn .ll-primary {
+  background: var(--ll-accent);
+  border-color: var(--ll-accent);
+  color: #fff;
+}
+.lumalearn .ll-primary:hover:not(:disabled) {
+  background: #4e3ba9;
+  color: #fff;
+}
+.lumalearn button:disabled {
+  cursor: default;
+}
+.ll-button:disabled {
+  opacity: 0.62;
+}
+.ll-gloss > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--ll-line);
+}
+.ll-gloss dt {
+  font-weight: 650;
+}
+.ll-gloss dd {
+  color: var(--ll-sub);
+  text-align: right;
+}
+.lumalearn details {
+  border-top: 1px solid var(--ll-line);
+  padding-top: 0.9rem;
+}
+.ll-card > details:first-child {
+  padding: 0;
+  border: 0;
+}
+.lumalearn summary {
+  color: var(--ll-accent);
+  font-weight: 640;
+  cursor: pointer;
+}
+.lumalearn details p {
+  margin-top: 0.6rem;
+}
+.ll-source,
+.ll-meta,
+.ll-count {
+  font-size: 0.85rem;
+  color: var(--ll-sub);
+  line-height: 1.5;
+}
+.ll-choices {
+  display: grid;
+  gap: 0.55rem;
+}
+.ll-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.73rem 0.95rem;
+  width: 100%;
+  background: white;
+  border: 1px solid var(--ll-line);
+  border-radius: 11px;
+  text-align: start;
+  min-height: 45px;
+  color: var(--ll-ink);
+}
+.ll-choice input,
+.ll-tick input {
+  accent-color: var(--ll-accent);
+  flex-shrink: 0;
+  width: 1.12rem;
+  height: 1.12rem;
+}
+.ll-choice:has(input:checked),
+.lumalearn .ll-selected {
+  border-color: var(--ll-accent);
+  background: var(--ll-soft);
+}
+.lumalearn .ll-right,
+.lumalearn .ll-good {
+  background: #eaf4ed;
+  color: #254d36;
+  border-color: #93b69c;
+}
+.lumalearn .ll-missed,
+.lumalearn .ll-hint {
+  background: #fcf3e8;
+  color: #704c28;
+  border-color: #dcc2a4;
+}
+.ll-feedback {
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  margin-top: 0.85rem;
+  background: #f0eff7;
+  color: #49415e;
+  font-size: 0.92rem;
+}
+.ll-narrow {
+  max-width: 760px;
+}
+.lumalearn :is(textarea, input[type="search"], .ll-field input) {
+  width: 100%;
+  background: #fbfbfe;
+  border: 1px solid var(--ll-line);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  font-weight: 400;
+}
+.lumalearn textarea {
+  min-height: 8rem;
+  resize: vertical;
+  line-height: 1.65;
+}
+.ll-label {
+  display: block;
+}
+.ll-tick {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.ll-tick input {
+  margin: 0.18rem 0 0;
+}
+.ll-review {
+  border-top: 1px solid var(--ll-line);
+  padding-top: 0.9rem;
+}
+.lumalearn blockquote {
+  border-left: 3px solid #bcaded;
+  padding: 0.62rem 0.9rem;
+  background: #f6f4fe;
+  border-radius: 0 7px 7px 0;
+}
+.ll-examples,
+.ll-exam-review {
+  display: grid;
+  gap: 0.7rem;
+}
+.ll-examples blockquote {
+  display: grid;
+  gap: 0.25rem;
+}
+.ll-examples blockquote span {
+  font-size: 0.94rem;
+  color: var(--ll-sub);
+}
+.ll-review ul,
+.ll-starters {
+  padding-left: 1.3rem;
+}
+.ll-review li + li,
+.ll-starters li + li {
+  margin-top: 0.5rem;
+}
+.ll-progress {
+  width: 100%;
+  height: 0.42rem;
+  accent-color: var(--ll-accent);
+}
+.lumalearn fieldset {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.lumalearn legend {
+  margin-bottom: 0.85rem;
+  padding: 0;
+}
+.ll-exam-review > div {
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--ll-line);
+}
+.ll-exam-review p {
+  margin-top: 0.25rem;
+}
+.ll-exam-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
+  align-items: start;
+  gap: 1rem;
+}
+.ll-exam-passage .ll-test-passage {
+  font-size: 1.06rem;
+  line-height: 1.75;
+}
+.ll-exam-main .ll-choice:has(input:checked) {
+  border-color: #8374c1;
+  background: #f3f0fb;
+}
+.ll-exam-rubric .ll-field + .ll-field {
+  margin-top: 1rem;
+}
+.ll-score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+.ll-score-grid > div {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem;
+  background: #f5f2fd;
+  border-radius: 12px;
+}
+.ll-score-grid b {
+  font-size: 1.6rem;
+  color: #55448c;
+}
+.ll-score-grid span {
+  line-height: 1.35;
+  font-size: 0.9rem;
+}
+.ll-exam-draft {
+  white-space: pre-wrap;
+}
+@media (max-width: 850px) {
+  .ll-exam-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.ll-bank-tools,
+.ll-game-head {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+.ll-bank-tools .ll-field:last-child {
+  width: min(100%, 350px);
+}
+.ll-results {
+  margin: 1rem 0 0.7rem;
+}
+.ll-bank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(215px, 100%), 1fr));
+  gap: 0.9rem;
+}
+.ll-bank .ll-trans {
+  color: var(--ll-accent);
+  font-weight: 630;
+}
+.ll-save {
+  padding: 0.2rem 0.5rem;
+  min-height: 36px;
+  color: var(--ll-accent);
+  font-size: 1.35rem !important;
+}
+.ll-game-head {
+  align-items: center;
+  justify-content: space-between;
+}
+.ll-pairs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+.ll-pairs > div {
+  display: grid;
+  grid-template-rows: auto repeat(4, minmax(52px, 1fr));
+  gap: 0.5rem;
+}
+.ll-pairs .ll-choice {
+  justify-content: center;
+  text-align: center;
+}
+.ll-recorder audio {
+  width: 100%;
+  margin-top: 0.7rem;
+}
+.ll-recorder p {
+  margin-top: 0.5rem;
+}
+.lumalearn .ll-phrase {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.45;
+  font-weight: 580;
+}
+@media (max-width: 950px) {
+  .ll-columns {
+    grid-template-columns: minmax(0, 1.5fr) minmax(200px, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .ll-columns {
+    grid-template-columns: 1fr;
+  }
+  .ll-card {
+    border-radius: 15px;
+  }
+  .ll-head {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+  .ll-level select {
+    min-height: 38px;
+  }
+}
