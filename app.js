@@ -43,6 +43,7 @@
     plants: ["How leaves feed a forest", "leaf", "La energía de las hojas"],
   };
   routes.verbs = ["Conjugador", "languages", "Verbos, tiempos y formas del inglés"];
+  routes.onboarding = ["Bienvenida", "door-enter", "Tu primer ingreso a Luma"];
   routes.vocabulary = ["Vocabulario", "layers-3", "Palabras para recordar y ampliar con APIs"];
   routes.topics = ["Explorador de temas", "shuffle", "Genera nuevas sesiones científicas a demanda"];
   routes.agents = ["Agentes de desarrollo", "bot", "Monitoreo y mejora continua automática"];
@@ -164,7 +165,9 @@
       connected = true;
       persist();
       chrome();
-      if (current === "home") home();
+      if (Object.hasOwn(state, "onboarded") && current === "onboarding")
+        go("home");
+      else if (current === "home") home();
       flush();
     } catch {}
   }
@@ -465,6 +468,7 @@
   }
   function go(id) {
     if (!Object.hasOwn(routes, id)) id = "home";
+    if (!Object.hasOwn(state, "onboarded") && id !== "onboarding") id = "onboarding";
     finder.close();
     document.getElementById("topics").close();
     closeMenu();
@@ -492,6 +496,7 @@
     window.LumaLearn?.dispose?.();
     window.LumaScience?.dispose?.();
     window.LumaLibrary?.dispose?.();
+    window.LumaOnboarding?.dispose?.();
     if (prior && prior !== id) window.speechSynthesis?.cancel();
     current = id;
     chrome();
@@ -517,6 +522,8 @@
       window.LumaAgentsUI.render(root, api);
     else if (id === "games")
       window.LumaGames.render(root, api);
+    else if (id === "onboarding")
+      window.LumaOnboarding.render(root, api);
     else window.LumaLearn.render(id, root, api);
     window.scrollTo(0, 0);
     if (prior) root.focus({ preventScroll: true });
@@ -633,7 +640,12 @@
       document.getElementById("menu-button")?.focus();
     }
   });
-  window.addEventListener("hashchange", () => render(location.hash.slice(1)));
+  window.addEventListener("hashchange", () => {
+    const id = location.hash.slice(1);
+    if (!Object.hasOwn(state, "onboarded") && id !== "onboarding")
+      render("onboarding");
+    else render(id);
+  });
   window.addEventListener("online", hydrate);
   window.addEventListener("focus", () => {
     if (connected) flush();
@@ -645,6 +657,12 @@
   } else {
     hydrate();
   }
-  render(location.hash.slice(1) || "home");
+  if (Object.hasOwn(state, "onboarded")) {
+    render(location.hash.slice(1) || "home");
+  } else if (location.hash.slice(1) === "onboarding") {
+    render("onboarding");
+  } else {
+    location.hash = "onboarding"; // hashchange dispara y respeta firstSync
+  }
   syncDrawer();
 })();
