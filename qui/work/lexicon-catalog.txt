@@ -1,0 +1,418 @@
+# Objetos|Sustantivo
+pencil|lápiz|Sketch the shell with a pencil.
+pen|bolígrafo|Sign the form with a blue pen.
+eraser|borrador|There is an eraser on the end of my pencil.
+notebook|cuaderno|My notebook has a drawing on every page.
+folder|carpeta|Put the maps in a folder.
+paper clip|clip|A paper clip holds the cards together.
+scissors|tijeras|These scissors cut through thick paper.
+tape|cinta adhesiva|Use tape to attach the drawing to the wall.
+glue|pegamento|The glue is still wet.
+envelope|sobre|The letter came in a brown envelope.
+wallet|billetera|My train ticket is in my wallet.
+watch|reloj de pulsera|My watch shows the local time.
+umbrella|paraguas|Take an umbrella on the field trip.
+battery|pila o batería|The camera needs a fresh battery.
+charger|cargador|I left my phone charger at home.
+plug|enchufe|Pull the plug out by its handle.
+cable|cable|A cable connects the camera to the screen.
+backpack|mochila|My backpack has room for a water bottle.
+basket|cesta|Carry the apples in a basket.
+rope|cuerda|The rope is three metres long.
+ladder|escalera de mano|The ladder reaches the top shelf.
+bucket|cubo o balde|Rainwater collects in the bucket.
+needle|aguja|Thread the needle before you sew.
+button|botón|A button fell off my coat.
+wheel|rueda|The bicycle wheel spins freely.
+# Ropa y accesorios|Sustantivo
+shirt|camisa|My shirt has a pocket on the left.
+T-shirt|camiseta|She wears a cotton T-shirt.
+blouse|blusa|The blue blouse is on the hanger.
+sweater|suéter|Take a sweater for the evening.
+hoodie|sudadera con capucha|His hoodie has a large front pocket.
+jacket|chaqueta|The wind lifted the hood of my jacket.
+coat|abrigo|Hang your coat by the door.
+raincoat|impermeable|The raincoat keeps my notebook dry.
+trousers|pantalones|These trousers have two deep pockets.
+jeans|pantalones de mezclilla|My jeans are drying in the sun.
+shorts|pantalones cortos|I wear shorts in hot weather.
+skirt|falda|The skirt reaches her knees.
+dress|vestido|She made the dress from an old curtain.
+suit|traje|He wore a dark suit to the ceremony.
+uniform|uniforme|Our team wears a green uniform.
+socks|calcetines|Pack an extra pair of socks.
+shoes|zapatos|Leave your wet shoes near the door.
+boots|botas|My boots left prints in the mud.
+sandals|sandalias|These sandals have soft straps.
+slippers|pantuflas|I keep my slippers beside the bed.
+scarf|bufanda|Wrap the scarf around your neck.
+gloves|guantes|Put on gloves to keep your fingers warm.
+hat|sombrero|The hat shades my face.
+cap|gorra|Her cap has the museum logo.
+belt|cinturón|The belt holds the trousers in place.
+pocket|bolsillo|My pencil fits inside this pocket.
+zipper|cremallera|The zipper on my bag is stuck.
+sleeve|manga|Roll up your sleeve before washing the bowl.
+collar|cuello de una prenda|The shirt has a narrow collar.
+fabric|tela|Hold the fabric up to the light.
+# Personas y relaciones|Sustantivo
+person|persona|One person waits outside the room.
+people|personas|Six people took part in the survey.
+adult|adulto|An adult holds the gate open.
+child|niño o niña|The child draws a cloud.
+teenager|adolescente|The teenager shows us how the app works.
+baby|bebé|The baby watches the moving shadows.
+parent|madre o padre|Each parent received an invitation.
+daughter|hija|Her daughter studies the stars.
+son|hijo|Their son collects smooth stones.
+sister|hermana|My sister shares her telescope with me.
+brother|hermano|My brother prefers the planetarium.
+grandparent|abuelo o abuela|My grandparent taught me to read maps.
+cousin|primo o prima|My cousin lives near the coast.
+aunt|tía|My aunt works at a station.
+uncle|tío|My uncle grows tomatoes in pots.
+friend|amigo o amiga|A friend sent me this article.
+neighbour|vecino o vecina|Our neighbour lent us a ladder.
+classmate|compañero de clase|I compared my answer with a classmate.
+colleague|colega|My colleague checked the graph.
+teammate|compañero de equipo|A teammate timed the race.
+guest|invitado|Each guest got a name tag.
+visitor|visitante|The visitor asked about the fossil.
+stranger|persona desconocida|A stranger asked me for directions.
+audience|público|The audience listened to the speaker.
+# Profesiones|Sustantivo
+teacher|docente|The teacher demonstrates how to measure a leaf.
+student|estudiante|Each student records one result.
+researcher|investigador|The researcher studies ocean currents.
+engineer|ingeniero|An engineer designed the bridge.
+biologist|biólogo|The biologist identified the bird by its call.
+chemist|químico|The chemist compared the two materials.
+physicist|físico|A physicist explained how the lens works.
+astronomer|astrónomo|The astronomer photographed a distant galaxy.
+geologist|geólogo|The geologist described the layers of rock.
+ecologist|ecólogo|The ecologist mapped the wetland.
+technician|técnico|A technician inspected the camera.
+mechanic|mecánico|The mechanic adjusted the brakes.
+architect|arquitecto|The architect drew the entrance to scale.
+librarian|bibliotecario|The librarian helped us locate the journal.
+journalist|periodista|A journalist interviewed the team.
+editor|editor|The editor checked the caption.
+artist|artista|The artist drew the insect in detail.
+photographer|fotógrafo|The photographer waited for softer light.
+farmer|agricultor|The farmer checks the soil after rain.
+driver|conductor|The driver stopped at the museum.
+guide|guía|Our guide explained the shape of the valley.
+translator|traductor|The translator checked the technical terms.
+# Colores|Adjetivo
+black|negro|The black bag absorbs sunlight.
+orange|anaranjado|The sky looks orange near sunset.
+pink|rosado|The pink marker shows the new route.
+brown|marrón|The soil is dark brown after rain.
+grey|gris|The bird has grey wings.
+golden|dorado|The sand looks golden at noon.
+silver|plateado|The camera has a silver case.
+turquoise|turquesa|The shallow water looks turquoise.
+navy blue|azul marino|I marked the coast with a navy blue line.
+light blue|azul claro|The map shows lakes in light blue.
+dark green|verde oscuro|The tree has dark green leaves.
+beige|beis|The wall behind the sample is beige.
+pale|pálido|The light leaves a pale spot on the wall.
+bright|brillante o intenso|A bright colour makes the tag easy to see.
+# Adjetivos descriptivos|Adjetivo
+large|grande|A large sheet covers the table.
+small|pequeño|A small lens fits in my pocket.
+wide|ancho|The river is wide here.
+narrow|estrecho|A narrow path follows the cliff.
+thick|grueso|A thick layer of ice covers the pond.
+thin|delgado|The leaf has a thin, dry edge.
+heavy|pesado|The wet bag feels heavy.
+lightweight|ligero|A lightweight tripod is easy to carry.
+long|largo|The shadow is long in the morning.
+short|corto|The walk to the lake is short.
+tall|alto|The tall tree casts a long shadow.
+deep|profundo|The boat moves into deep water.
+shallow|poco profundo|You can see the stones in shallow water.
+rough|áspero|The rough surface catches the cloth.
+smooth|liso|River stones often feel smooth.
+soft|blando|The clay is soft after the rain.
+hard|duro|The rock is too hard to scratch with a nail.
+wet|mojado|Wet shoes leave marks on the floor.
+dry|seco|Keep the paper dry inside the bag.
+warm|templado|The stone feels warm in the sun.
+cool|fresco|The shade keeps the bench cool.
+cold|frío|The air feels cold before sunrise.
+round|redondo|The coin is almost round.
+flat|plano|Place the scale on a flat surface.
+curved|curvo|The curved mirror changes the image.
+straight|recto|Draw a straight line between the dots.
+clear|transparente o claro|The bottom is visible through clear water.
+opaque|opaco|An opaque lid blocks the light.
+flexible|flexible|The flexible wire bends easily.
+fragile|frágil|This fragile shell can break in your hand.
+accurate|exacto|An accurate clock shows the correct time.
+precise|preciso|Repeated readings can be precise even if the scale is offset.
+reliable|fiable|We need a reliable way to count the birds.
+similar|parecido|The two leaves have a similar shape.
+different|diferente|The books give different explanations.
+common|común|This is a common bird in our town.
+rare|poco frecuente|Snow is rare on this coast.
+available|disponible|The raw data are available online.
+likely|probable|Rain is likely this evening.
+uncertain|incierto|The age of the rock is still uncertain.
+# Verbos frasales|Verbo frasal
+look up|buscar información|Look up the word in a dictionary.
+look for|buscar algo o a alguien|We look for shells near the water.
+look after|cuidar|I look after the plants at weekends.
+look into|investigar|The team will look into the unusual reading.
+look out|tener cuidado|Look out for loose stones.
+find out|averiguar|We want to find out why the shadow moves.
+figure out|descifrar o resolver|Can you figure out the pattern?
+work out|calcular o resolver|Work out the distance from the map.
+point out|señalar|Please point out the missing unit.
+write down|anotar|Write down the time of each flash.
+note down|tomar nota de|Note down one question as you read.
+fill in|rellenar|Fill in the empty cells in the table.
+fill out|completar un formulario|Please fill out the registration form.
+fill up|llenar por completo|The jar will fill up with rainwater.
+set up|montar o preparar|Set up the tripod before sunset.
+take apart|desmontar|We can take apart the model to see its gears.
+put together|ensamblar|Put together the two halves of the model.
+put away|guardar|Put away the ruler after the lesson.
+put on|ponerse una prenda|Put on a jacket before you go outside.
+take off|quitarse o despegar|The plane will take off at noon.
+try on|probarse ropa|Try on the boots before the walk.
+pick up|recoger|Pick up the cards from the floor.
+put down|dejar sobre una superficie|Put down the glass gently.
+turn on|encender|Turn on the lamp to start the observation.
+turn off|apagar|Turn off the light when you leave.
+turn up|subir la intensidad|Turn up the volume to hear the recording.
+turn down|bajar la intensidad|Turn down the brightness of the screen.
+plug in|enchufar|Plug in the charger near the desk.
+run out of|quedarse sin|We might run out of paper.
+use up|agotar al usar|One long recording can use up the available space.
+carry out|llevar a cabo|The class will carry out a short survey.
+carry on|continuar|Carry on reading after the diagram.
+go on|seguir o continuar|Go on to the next paragraph.
+go over|repasar|Go over the numbers before your talk.
+go through|examinar paso a paso|We can go through the results together.
+leave out|omitir|Do not leave out the units.
+cross out|tachar|Cross out the word that does not fit.
+hand in|entregar|Hand in your summary on Friday.
+hand out|repartir|Please hand out one card to each person.
+give back|devolver|Give back the guidebook after the visit.
+give up|abandonar un intento|We did not give up after the first attempt.
+break down|averiarse o descomponer|We can break down the problem into three parts.
+break up|fragmentarse|The floating ice can break up into smaller pieces.
+warm up|calentarse|Let your hands warm up indoors.
+cool down|enfriarse|The metal will cool down in the shade.
+speed up|acelerar|The cart will speed up on the ramp.
+slow down|reducir la velocidad|Slow down the video to follow the motion.
+add up|sumar|Add up the totals in both columns.
+check in|registrarse al llegar|Check in at the front desk.
+check out|sacar en préstamo o dejar un hotel|I want to check out a book from the library.
+come across|encontrarse con algo por casualidad|I came across an old map in the archive.
+bring up|mencionar un tema|She will bring up that question in the discussion.
+keep up with|seguir el ritmo de|I take notes to keep up with the lecture.
+catch up on|ponerse al día con|I need to catch up on my reading.
+cut down on|reducir el consumo de|We can cut down on paper by sharing copies.
+count on|contar con|You can count on me to record the times.
+look forward to|tener ganas de|We look forward to visiting the observatory.
+back up|hacer una copia de seguridad|Back up the photos before clearing the camera.
+sort out|organizar o resolver|Let's sort out the labels before we start.
+sum up|resumir|Sum up the finding in one sentence.
+# Casa y mobiliario|Sustantivo
+door|puerta|The door opens into the garden.
+wall|pared|The clock is on the wall.
+ceiling|techo interior|A lamp hangs from the ceiling.
+roof|tejado|Rain falls on the roof.
+floor|suelo interior|The floor is level here.
+stairs|escaleras|The stairs lead to the balcony.
+bed|cama|The suitcase is under the bed.
+pillow|almohada|The pillow is filled with feathers.
+blanket|manta|A wool blanket keeps me warm.
+chair|silla|Move the chair closer to the desk.
+table|mesa|Spread the map across the table.
+sofa|sofá|The cat sleeps on the sofa.
+cupboard|armario|The dishes are in the cupboard.
+drawer|cajón|The batteries are in the top drawer.
+curtain|cortina|The curtain blocks the afternoon sun.
+towel|toalla|Dry the bowl with a clean towel.
+soap|jabón|Soap helps remove grease from dishes.
+sink|fregadero|Rinse the cup in the sink.
+fridge|nevera|We keep milk in the fridge.
+oven|horno|The oven warms the kitchen.
+pan|sartén|The pan has a metal base.
+spoon|cuchara|Stir the mixture with a spoon.
+fork|tenedor|Use a fork to lift the fruit.
+knife|cuchillo|The knife has a wooden handle.
+plate|plato|The plate is wider than the bowl.
+bowl|cuenco|Pour the oats into a bowl.
+cup|taza|The cup is half full.
+glass|vaso|A glass of water stands by the bed.
+# Alimentos|Sustantivo
+bread|pan|The bread is still warm.
+cheese|queso|Cut the cheese into small cubes.
+yogurt|yogur|The yogurt stays cold in the fridge.
+butter|mantequilla|Butter melts on warm toast.
+egg|huevo|The egg has a thin shell.
+bean|frijol|We placed one bean on a damp cloth.
+lentil|lenteja|A dry lentil fits on my fingertip.
+potato|papa|A potato grows underground.
+carrot|zanahoria|The carrot is a root.
+onion|cebolla|The onion has several layers.
+tomato|tomate|The tomato contains many seeds.
+banana|banano|The banana peel is yellow.
+grape|uva|A grape has a thin skin.
+pear|pera|The pear is wider at the bottom.
+lemon|limón|The lemon tastes sour.
+honey|miel|Honey flows slowly from the spoon.
+sugar|azúcar|The sugar dissolves in warm water.
+milk|leche|Pour the milk into a measuring cup.
+water|agua|The water weighs more than the empty bottle.
+juice|jugo|The orange juice contains pulp.
+# Ciudad y transporte|Sustantivo
+street|calle|Our street ends at the park.
+road|carretera|The road follows the river.
+bridge|puente|The bridge crosses the valley.
+crossing|cruce|Wait at the pedestrian crossing.
+pavement|acera|The pavement is wet near the drain.
+corner|esquina|The bus stop is around the corner.
+square|plaza|The fountain stands in the town square.
+market|mercado|We bought fruit at the market.
+shop|tienda|The shop sells maps of the region.
+bank|banco|The bank opens at nine.
+library|biblioteca|The library has a collection of atlases.
+museum|museo|The museum displays local fossils.
+cinema|cine|The science film is showing at the cinema.
+school|escuela|Our school has a weather station.
+university|universidad|The university hosts a public lecture.
+town hall|alcaldía|The meeting takes place at the town hall.
+park|parque|We counted birds in the park.
+airport|aeropuerto|The airport lies south of the city.
+platform|andén|Our train leaves from platform three.
+bus stop|parada de autobús|The bus stop has a timetable.
+bicycle|bicicleta|A bicycle uses gears to change speed.
+subway|metro|The subway travels under the river.
+fare|tarifa de transporte|The fare includes the return trip.
+timetable|horario de transporte|Read the timetable before leaving home.
+route|ruta|The route avoids the steep hill.
+# Ciencias de la naturaleza|Sustantivo
+leaf|hoja de una planta|A leaf takes in carbon dioxide through tiny openings.
+root|raíz|A root can absorb water from the soil.
+stem|tallo|The stem supports the leaves.
+flower|flor|The flower attracts visiting insects.
+branch|rama|A branch bends in the wind.
+trunk|tronco|The trunk supports the crown of the tree.
+bark|corteza de árbol|The bark protects the stem.
+forest|bosque|The forest changes with the seasons.
+soil|suelo natural|The soil holds water between its particles.
+clay|arcilla|Wet clay can be shaped by hand.
+sand|arena|The sand contains grains of different sizes.
+pebble|guijarro|The pebble has a rounded edge.
+fossil|fósil|The fossil preserves the shape of a shell.
+mineral|mineral|Quartz is a common mineral.
+crystal|cristal|The crystal has flat faces.
+river|río|The river carries sediment downstream.
+lake|lago|The lake receives water from two streams.
+stream|arroyo|A narrow stream crosses the path.
+glacier|glaciar|The glacier moves slowly down the valley.
+valley|valle|The valley lies between two ridges.
+island|isla|The island has a rocky coast.
+coast|costa|From the coast we can watch the tides.
+habitat|hábitat|The pond provides a habitat for frogs.
+species|especie|Both birds belong to the same species.
+population|población|The survey estimated the local deer population.
+ecosystem|ecosistema|A forest ecosystem includes organisms and their surroundings.
+oxygen|oxígeno|Oxygen is one of the gases in air.
+carbon dioxide|dióxido de carbono|Plants use carbon dioxide during photosynthesis.
+gravity|gravedad|Gravity keeps the Moon in orbit around Earth.
+energy|energía|Sunlight carries energy to the ground.
+wavelength|longitud de onda|Red light has a longer wavelength than blue light.
+pressure|presión|Air pressure changes with altitude.
+temperature|temperatura|The water temperature rose during the afternoon.
+density|densidad|Density relates mass to volume.
+friction|fricción|Friction slows the sliding block.
+reflection|reflexión|A calm lake can show a reflection of the mountains.
+# Sustantivos para explicar ideas|Sustantivo
+question|pregunta|Our question concerns the movement of water.
+answer|respuesta|The answer depends on the measurements.
+idea|idea|One idea explains the change in colour.
+reason|razón o motivo|Give one reason for your choice.
+cause|causa|The cause of the change is still unclear.
+effect|efecto|The effect was smaller in the shade.
+result|resultado|The result surprised the class.
+example|ejemplo|Add an example to clarify the idea.
+comparison|comparación|The comparison uses two equal distances.
+difference|diferencia|The difference between the two readings is small.
+pattern|patrón|We noticed a pattern in the graph.
+method|método|The method uses a simple ruler.
+source|fuente|Always include the source of a figure.
+detail|detalle|One detail is missing from the drawing.
+choice|elección|Explain your choice of units.
+change|cambio|The chart shows a change in direction.
+problem|problema|The main problem is the missing label.
+limit|límite|Every instrument has a detection limit.
+conclusion|conclusión|Our conclusion applies to this sample.
+claim|afirmación|The measurements support a narrower claim.
+# Adverbios y conectores|Adverbio
+often|a menudo|We often see birds beside the lake.
+usually|normalmente|The room is usually quiet in the morning.
+rarely|rara vez|This stream rarely dries out.
+always|siempre|Always name the units on each axis.
+never|nunca|Our group has never visited this island.
+sometimes|a veces|The sensor sometimes records two peaks.
+already|ya|The ice has already started to melt.
+still|todavía|The surface is still wet.
+recently|recientemente|We recently added a second camera.
+gradually|gradualmente|The reading rose gradually.
+suddenly|de repente|The wind suddenly changed direction.
+carefully|con cuidado|Carefully align the ruler with the mark.
+roughly|aproximadamente|The field is roughly rectangular.
+nearly|casi|The two lines are nearly parallel.
+therefore|por lo tanto|The readings differ; therefore, we should repeat the test.
+however|sin embargo|The result is promising. However, the sample was small.
+instead|en su lugar|The path was flooded, so we used the bridge instead.
+together|juntos|The two gears turn together.
+indoors|bajo techo|We repeated the measurement indoors.
+outdoors|al aire libre|The class observed shadows outdoors.
+# Números|Numeral
+one|uno|One light is still on.
+two|dos|The plant has two new leaves.
+four|cuatro|We labelled four jars.
+five|cinco|Measure the shadow every five minutes.
+six|seis|Six birds landed on the roof.
+seven|siete|A week has seven days.
+eight|ocho|There are eight points on the chart.
+nine|nueve|The clock strikes nine.
+ten|diez|Count to ten before the next reading.
+eleven|once|The group counted eleven shells.
+twelve|doce|A year has twelve months.
+fourteen|catorce|We compared fourteen samples.
+fifteen|quince|The walk takes fifteen minutes.
+sixteen|dieciséis|Sixteen dots form a square on the page.
+seventeen|diecisiete|The box holds seventeen stones.
+eighteen|dieciocho|The survey lasted eighteen days.
+nineteen|diecinueve|Nineteen people completed the form.
+twenty|veinte|A second trial lasted twenty minutes.
+twenty-one|veintiuno|We saw twenty-one trees along the road.
+forty|cuarenta|The class counted forty raindrops on the sheet.
+fifty|cincuenta|The instrument costs fifty dollars.
+sixty|sesenta|A minute has sixty seconds.
+seventy|setenta|The bridge is seventy metres long.
+eighty|ochenta|There are eighty seats in the hall.
+ninety|noventa|A right angle measures ninety degrees.
+thousand|mil|One thousand metres make one kilometre.
+million|millón|One million is a thousand thousands.
+first|primero|Use the first column for the date.
+second place|segundo puesto|Our team finished in second place.
+third|tercero|The third reading was the lowest.
+fourth|cuarto|The fourth row lists the units.
+fifth|quinto|We read the fifth chapter.
+tenth|décimo|The tenth mark is longer.
+one quarter|un cuarto|One quarter of the circle is shaded.
+three quarters|tres cuartos|Three quarters of an hour is forty-five minutes.
+one third|un tercio|One third of the cards are blue.
+zero point five|cero coma cinco|A half is zero point five in decimal form.
+two point zero five|dos coma cero cinco|Read 2.05 as two point zero five.
+negative three|menos tres|The display reads negative three degrees.
+twice|dos veces|The wheel turns twice for each signal.

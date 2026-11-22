@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f8f9fc" />
+    <meta
+      name="description"
+      content="Aprende inglés mientras exploras la ciencia. Lee artículos, practica a tu nivel y repasa con Lumi."
+    />
+    <title>Luma · Inglés con ciencia</title>
+    <link rel="icon" type="image/svg+xml" href="assets/luma.svg" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="assets/dm-sans.ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="learn.css" />
+    <link rel="stylesheet" href="science.css" />
+    <link rel="stylesheet" href="library.css" />
+    <script defer src="assets/icons.js"></script>
+    <script defer src="learn.js"></script>
+    <script defer src="science.js"></script>
+    <script defer src="library.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Saltar al contenido</a>
+    <div id="shade" hidden></div>
+    <aside id="rail" aria-label="Navegación principal"></aside>
+    <div class="stage">
+      <header class="topbar" id="topbar"></header>
+      <main id="content" tabindex="-1"></main>
+    </div>
+    <dialog id="finder" aria-labelledby="search-heading">
+      <div class="finder-head">
+        <h2 id="search-heading">Buscar en Luma</h2>
+        <button class="iconbtn" id="close-search" aria-label="Cerrar búsqueda">
+          ×
+        </button>
+      </div>
+      <label class="field"
+        ><span>Artículo, actividad o tema</span
+        ><input
+          id="query"
+          type="search"
+          placeholder="Prueba con «lectura» o «estrellas»"
+          autocomplete="off"
+      /></label>
+      <div id="matches"></div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

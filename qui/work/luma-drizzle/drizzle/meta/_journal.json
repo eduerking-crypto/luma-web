@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1795286066084,
+      "tag": "0000_perfil_de_estudio",
+      "breakpoints": true
+    }
+  ]
+}

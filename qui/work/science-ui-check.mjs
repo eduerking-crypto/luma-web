@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {parseHTML} from './library-check/node_modules/linkedom/esm/index.js';
+await import('./luma/dist/science.js');
+const {document}=parseHTML('<html><body><main></main></body></html>');globalThis.document=document;globalThis.location={protocol:'file:'};
+globalThis.fetch=async()=>{throw new Error('offline');};
+const values=new Map(), root=document.querySelector('main');
+const api={go:route=>LumaScience.render(route,root,api),get:(k,f)=>values.has(k)?values.get(k):f,set:(k,v)=>values.set(k,v),level:()=>'A1'};
+api.go('news');await new Promise(r=>setImmediate(r));
+assert.equal(root.querySelectorAll('.sci-record').length,4);assert.ok(root.querySelector('[role=status]').textContent.includes('archivo'));
+assert.equal(root.querySelector('.sci-daily-label').textContent,'Artículo del día');
+root.querySelector('[data-feed=social]').click();await new Promise(r=>setImmediate(r));
+assert.equal(root.querySelectorAll('a[href^="https://www.youtube.com/watch"]').length,3);
+root.querySelector('[data-feed=journal]').click();await new Promise(r=>setImmediate(r));
+root.querySelector('[data-discuss]').click();assert.ok(root.querySelector('.sci-context'));assert.ok(root.querySelector('.sci-log'));
+const input=root.querySelector('textarea'),form=root.querySelector('form');
+async function ask(q){input.value=q;await form.onsubmit({preventDefault(){}});return root.querySelectorAll('.sci-bubble').at(-1).textContent;}
+assert.ok((await ask('Ayúdame con el título')).includes('El título es'));
+assert.ok((await ask('Dame un ejercicio')).includes('make light'));
+assert.ok((await ask('make')).includes('¡Correcto!'));
+assert.ok((await ask('¿Qué significa glow?')).includes('brillar'));
+root.querySelector('[data-leave]').click();assert.ok(!root.querySelector('.sci-context'));
+console.log('Offline UI: archive, daily selection, 3 dated videos, article context, guided tutoring, exercise feedback passed.');
