@@ -1,92 +1,90 @@
-/* Navegación inferior estilo Duolingo · móvil primero.
-   El rail lateral original se conserva intacto en escritorio. */
+/* Navegación inferior estilo app · la misma forma en la web y en el APK.
+   El rail lateral ya no se usa: todas las pantallas comparten la barra inferior. */
 
-/* Escritorio: barra inferior y marca compacta ocultas */
-#bottom-nav { display: none; }
-.top-brand { display: none; }
+html, body { overflow-x: hidden; }
 
+/* El rail lateral y su sombra quedan fuera de la experiencia unificada */
+#rail, #shade { display: none !important; }
+
+/* Barra inferior de iconos */
+#bottom-nav {
+  display: flex;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  height: calc(64px + env(safe-area-inset-bottom, 0px));
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px env(safe-area-inset-bottom, 0px);
+  background: #fff;
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -3px 14px #34304f0d;
+  z-index: 50;
+}
+#bottom-nav .nav-item {
+  flex: 1 1 0;
+  max-width: 96px;
+  min-width: 0;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0;
+  gap: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+#bottom-nav .nav-item svg { width: 25px; height: 25px; stroke-width: 2; }
+#bottom-nav .nav-item.active {
+  color: var(--violet);
+  background: var(--pale);
+}
+#bottom-nav .nav-item.active svg { stroke: var(--violet); }
+
+/* Barra superior compacta: marca, búsqueda y chips */
+#topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  min-height: 56px;
+  height: 56px;
+  padding: 0 12px;
+  gap: 8px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.top-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+.top-brand svg { width: 20px; height: 20px; color: var(--violet); }
+.crumb, #menu-button { display: none !important; }
+.top-actions { margin-left: auto; gap: 6px; }
+.search-launch { padding: 7px; gap: 0; }
+.search-launch span, .search-launch kbd { display: none; }
+.chip { padding: 5px 9px; font-size: 0.76rem; }
+
+/* La escena ocupa todo el ancho y deja espacio a la barra inferior */
+.stage { margin-left: 0; }
+.stage #content { padding-bottom: 92px; }
+#toast { bottom: 78px; left: 50%; }
+
+/* Onboarding: margen inferior */
+.ob-overlay { padding-bottom: 84px; }
+.ob-card { max-width: 100%; border-radius: 18px; margin: 12px; }
+
+/* Ajustes de contenido en pantallas pequeñas */
 @media (max-width: 740px) {
-  html, body { overflow-x: hidden; }
-
-  /* El rail lateral original no se usa en móvil */
-  #rail, #shade { display: none !important; }
-
-  /* Barra inferior de iconos */
-  #bottom-nav {
-    display: flex;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: auto;
-    height: calc(64px + env(safe-area-inset-bottom, 0px));
-    align-items: flex-start;
-    justify-content: space-around;
-    padding: 6px 6px env(safe-area-inset-bottom, 0px);
-    background: #fff;
-    border-top: 1px solid var(--line);
-    box-shadow: 0 -3px 14px #34304f0d;
-    z-index: 50;
-  }
-  #bottom-nav .nav-item {
-    flex: 1 1 0;
-    min-width: 0;
-    height: 52px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 14px;
-    background: transparent;
-    color: var(--muted);
-    font-size: 0;
-    gap: 2px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  #bottom-nav .nav-item svg { width: 25px; height: 25px; stroke-width: 2; }
-  #bottom-nav .nav-item.active {
-    color: var(--violet);
-    background: var(--pale);
-  }
-  #bottom-nav .nav-item.active svg { stroke: var(--violet); }
-
-  /* Barra superior compacta: marca, búsqueda y chips */
-  #topbar {
-    position: sticky;
-    top: 0;
-    z-index: 40;
-    min-height: 56px;
-    height: 56px;
-    padding: 0 12px;
-    gap: 8px;
-    background: #fff;
-    border-bottom: 1px solid var(--line);
-  }
-  .top-brand {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 1.05rem;
-    color: var(--ink);
-  }
-  .top-brand svg { width: 20px; height: 20px; color: var(--violet); }
-  .crumb, #menu-button { display: none !important; }
-  .top-actions { margin-left: auto; gap: 6px; }
-  .search-launch { padding: 7px; gap: 0; }
-  .search-launch span, .search-launch kbd { display: none; }
-  .chip { padding: 5px 9px; font-size: 0.76rem; }
-
-  /* Espacio para la barra inferior */
-  .stage { margin-left: 0; }
-  .stage #content { padding-bottom: 92px; }
-  #toast { bottom: 78px; left: 50%; }
-
-  /* Onboarding: margen inferior */
-  .ob-overlay { padding-bottom: 84px; }
-  .ob-card { max-width: 100%; border-radius: 18px; margin: 12px; }
-
-  /* Ajuste tarjetas en home */
   .hero-grid { display: block; }
   .tutor-card { display: none; }
   .featured-reads { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -97,4 +95,9 @@
   .practice-card .icon-tile { margin-bottom: 6px; }
   .practice-card h3 { font-size: 0.85rem; margin-bottom: 2px; }
   .practice-card p { font-size: 0.72rem; margin: 0; }
+}
+
+@media (max-width: 420px) {
+  #bottom-nav { padding-left: 4px; padding-right: 4px; gap: 0; }
+  #bottom-nav .nav-item svg { width: 23px; height: 23px; }
 }
