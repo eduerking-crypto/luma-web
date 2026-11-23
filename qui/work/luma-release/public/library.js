@@ -269,7 +269,7 @@
         <div class="lb-cover"><img src="assets/${book.image}.webp" alt="">${bookmark(id, api)}</div>
         <div class="lb-card-body"><span class="lb-subject">${book.theme}${book.isLong?" · 5 capítulos":""}</span>
         <h2 lang="en"><button type="button" data-open="${id}">${book.title}</button></h2><p>${book.description}</p>
-        <button type="button" class="lb-text-btn" data-open="${id}" aria-label="Leer ${book.title}">${api.icon("book-open", 17)} ${book.isSession ? "Estudiar lectura" : "Leer artículo"}</button></div>
+        <div class="lb-card-actions"><button type="button" class="lb-text-btn" data-open="${id}" aria-label="Leer ${book.title}">${api.icon("book-open", 17)} ${book.isSession ? "Estudiar lectura" : "Leer artículo"}</button><button type="button" class="lb-btn lw-open" data-write="${id}" aria-label="Escribir sobre ${book.title}">${api.icon("pencil-line", 16)} Escribir</button></div></div>
       </article>`,
         )
         .join("")}</div>
@@ -290,6 +290,15 @@
             api.set("daily.selection." + localDate(), id);
             api.go("daily");
           } else api.go(id);
+        }),
+    );
+    root.querySelectorAll("[data-write]").forEach(
+      (btn) =>
+        (btn.onclick = () => {
+          const id = btn.dataset.write;
+          window.LumaWriting.render(id, catalog()[id], root, api, () =>
+            library(root, api, filter),
+          );
         }),
     );
     root.querySelectorAll("[data-bookmark]").forEach(

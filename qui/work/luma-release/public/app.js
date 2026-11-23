@@ -122,6 +122,7 @@
     persist();
     clearTimeout(syncTimer);
     syncTimer = setTimeout(flush, 450);
+    window.LumaCloud?.queue(state);
     if (["name", "level", "largeText", "reduceMotion"].includes(key)) chrome();
   }
   // Las ideas antiguas (océano, espacio, plantas, Tierra) siguen abriendo su
@@ -233,6 +234,7 @@
     toastTimer = setTimeout(() => t.classList.remove("show"), 2800);
   }
   const api = { level, go, complete, get, set, icon, toast };
+  window.LumaApp = Object.freeze({ api });
   window.LumaPreferences = {
     speechRate(defaultRate) {
       const preferred = Number(get("speechRate", 0));
@@ -495,7 +497,9 @@
         .join(
           "",
         )}</select></label><label class="field full"><span>Actividades al día</span><select name="goal">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${Number(get("goal", 3)) === n ? "selected" : ""}>${n} ${n === 1 ? "actividad" : "actividades"}</option>`).join("")}</select></label></div><div class="panel settings-grid"><h2>Lectura y movimiento</h2><label class="check-row"><input type="checkbox" name="large" ${get("largeText", false) ? "checked" : ""}>Texto más grande</label><label class="check-row"><input type="checkbox" name="reduced" ${get("reduceMotion", false) ? "checked" : ""}>Reducir animaciones</label></div><button class="solid-button" type="submit">${icon("check", 16)} Guardar cambios</button></form>
+      <div class="panel settings-grid account-panel" id="account-panel"></div>
       <div class="panel settings-grid"><h2>Introducci\u00f3n</h2><button type="button" class="outline-button" data-luma-go="onboarding">${icon("sparkles", 16)} Ver la introducci\u00f3n otra vez</button><p class="status-text">Repite la bienvenida para cambiar tu nombre, nivel, disciplina u objetivo.</p></div>`;
+    window.LumaAuthUI?.renderAccount(root.querySelector("#account-panel"), api);
     const interestSelect = root.querySelector('[name="interest"]');
     const branchSelect = root.querySelector("#settings-branch");
     const methodNote = root.querySelector("#settings-method");
@@ -733,6 +737,15 @@
   window.addEventListener("online", hydrate);
   window.addEventListener("focus", () => {
     if (connected) flush();
+  });
+  window.LumaCloud?.init({
+    getState: () => state,
+    applyState: (remote) => {
+      state = { ...remote, ...state, ...pending };
+      persist();
+      chrome();
+      if (current) render(current);
+    },
   });
   migrateSciences();
   if (!Object.keys(state).length && location.protocol !== "file:") {

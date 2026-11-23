@@ -69,6 +69,8 @@
     draft.branch = savedBranch ? savedBranch.label : "";
     const g = Number(apiRef.get("goal", 3));
     draft.goal = GOALS.some(([n]) => n === g) ? g : 3;
+    const session = window.LumaAuth?.session?.();
+    draft.email = String(session?.user?.email || apiRef.get("accountEmail", "") || "");
   }
 
   function progressPct() {
@@ -232,8 +234,14 @@
   function bindStep(step, isLast) {
     if (step === "welcome") {
       root.querySelector("[data-ob-jump]").onclick = () => {
-        idx = 1;
-        render();
+        const opened = window.LumaAuthUI?.open("login", draft.email, (session) => {
+          draft.email = session?.user?.email || "";
+          finishOnboarding(true);
+        });
+        if (!opened) {
+          idx = 1;
+          render();
+        }
       };
     }
     if (step === "name") {
@@ -298,7 +306,20 @@
     const finish = root.querySelector("[data-ob-finish]");
     if (finish) finish.onclick = () => finishOnboarding(false);
     const finishAcc = root.querySelector("[data-ob-finish-account]");
-    if (finishAcc) finishAcc.onclick = () => finishOnboarding(true);
+    if (finishAcc)
+      finishAcc.onclick = () => {
+        const email = String(draft.email || "").trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          apiRef.toast("Escribe un correo válido para crear la cuenta.");
+          root.querySelector("[data-ob-email]")?.focus();
+          return;
+        }
+        const opened = window.LumaAuthUI?.open("signup", email, (session) => {
+          draft.email = session?.user?.email || email;
+          finishOnboarding(true);
+        });
+        if (!opened) finishOnboarding(false);
+      };
   }
 
   function finishOnboarding(withAccount) {
@@ -309,16 +330,17 @@
     apiRef.set("interest", draft.interest);
     apiRef.set("scienceBranch", draft.branch);
     apiRef.set("goal", draft.goal);
-    const email = String(draft.email || "").trim();
+    const session = window.LumaAuth?.session?.();
+    const email = String(session?.user?.email || draft.email || "").trim();
     if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       apiRef.set("accountEmail", email);
-      apiRef.set("accountMode", withAccount ? "account" : "local");
+      apiRef.set("accountMode", session ? "account" : "local");
     } else {
       apiRef.set("accountMode", "local");
     }
     apiRef.set("onboarded", true);
     apiRef.toast(
-      withAccount
+      withAccount && session
         ? "Cuenta creada. \u00a1Bienvenido a Luma!"
         : "\u00a1Listo! Ya puedes empezar tu primera sesi\u00f3n.",
     );

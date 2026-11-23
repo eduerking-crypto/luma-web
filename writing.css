@@ -1,0 +1,228 @@
+/* Práctica de escritura · misma paleta y tarjetas que la Biblioteca. */
+.lb-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.9rem;
+}
+.lb-card-actions .lb-text-btn {
+  margin-top: 0;
+}
+.lw-open {
+  min-height: 2.1rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.7rem;
+  background: var(--pale);
+  font-size: 0.82rem;
+}
+.lw-open:hover {
+  background: #e2dcf8;
+}
+
+.lw-panel {
+  padding-bottom: 1rem;
+}
+.lw-head {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin: 0.35rem 0 1.4rem;
+}
+.lw-head img {
+  width: 108px;
+  height: 76px;
+  border-radius: 1rem;
+  object-fit: cover;
+  box-shadow: 0 4px 14px #1d213612;
+}
+.lw-overline {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #625292;
+}
+.lw-head h1 {
+  font-size: clamp(1.5rem, 3.6vw, 2.5rem);
+  margin: 0.25rem 0;
+}
+.lw-head p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.lw-card,
+.lw-result,
+.lw-history {
+  background: #fff;
+  border: 1px solid #e1e1eb;
+  border-radius: 1.35rem;
+  padding: 1.35rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+.lw-card h2,
+.lw-result h2 {
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+}
+.lw-prompt {
+  color: #4d4e61;
+  line-height: 1.6;
+}
+.lw-words {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.lw-words > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+.lw-words span {
+  background: var(--pale);
+  color: #4c3f8c;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-weight: 650;
+}
+.lw-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin: 1.25rem 0;
+}
+.lw-fields label,
+.lw-writer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: #42435a;
+}
+.lw-fields select {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  background: #fff;
+  color: var(--ink);
+}
+.lw-writer textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  resize: vertical;
+  min-height: 190px;
+  color: var(--ink);
+  background: #fcfcff;
+  line-height: 1.6;
+}
+.lw-writer textarea:focus {
+  border-color: #a594c9;
+  outline: 3px solid #eeebfa;
+}
+.lw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.8rem;
+}
+.lw-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.lw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.lw-score {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.9rem;
+  background: var(--pale);
+  color: #4c3f8c;
+  margin-bottom: 1rem;
+}
+.lw-score b {
+  font-size: 1.5rem;
+}
+.lw-score span {
+  font-size: 0.83rem;
+}
+.lw-result h3 {
+  font-size: 1rem;
+  margin: 1rem 0 0.45rem;
+}
+.lw-result ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.7;
+  color: #4d4e61;
+}
+.lw-good li::marker {
+  color: #3f9b71;
+}
+.lw-corrected {
+  margin: 1rem 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+}
+.lw-corrected summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #514b91;
+}
+.lw-corrected p {
+  margin-top: 0.7rem;
+  line-height: 1.65;
+}
+.lw-history h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.8rem;
+}
+.lw-history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.lw-history-list button {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: #fcfcff;
+}
+.lw-history-list b {
+  font-size: 0.85rem;
+}
+.lw-history-list span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+@media (max-width: 740px) {
+  .lw-head img {
+    width: 84px;
+    height: 62px;
+  }
+  .lw-card,
+  .lw-result,
+  .lw-history {
+    padding: 1rem;
+  }
+  .lw-actions .solid-button {
+    width: 100%;
+  }
+}
