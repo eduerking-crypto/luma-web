@@ -35,16 +35,27 @@
   }
 
   function renderVocabCard(entry, showActions = true) {
-    const { word, meaning, example, pos, source = "local" } = entry;
+    const { word, meaning, example, pos, source = "local", category = "" } = entry;
     const isVerb = verbData.some(v => v.base === word.toLowerCase());
     const badge = isVerb ? `<span class="vocab-badge verb">${icon("git-branch", 12)} Verbo</span>` : 
                     pos ? `<span class="vocab-badge">${escapeHtml(pos)}</span>` : "";
     const sourceBadge = source !== "local" ? `<span class="vocab-source">${escapeHtml(source)}</span>` : "";
-    
+    const pic = window.LumaVocabPictures?.picture(word, category) || {
+      emoji: "🔤",
+      phonetic: "",
+      html: "",
+    };
+
     return `<article class="vocab-card ${source !== "local" ? "enriched" : ""}" data-word="${escapeHtml(word)}">
       <div class="vocab-head">
-        <div>
-          <h3 lang="en">${escapeHtml(word)}${badge}${sourceBadge}</h3>
+        <div class="vocab-word-block">
+          <div class="vocab-wordline">
+            <span class="vocab-picture" aria-hidden="true">${escapeHtml(pic.emoji)}</span>
+            <div class="vocab-wordtext">
+              <h3 lang="en">${escapeHtml(word)}${badge}${sourceBadge}</h3>
+              ${pic.phonetic ? `<span class="vocab-phonetic" lang="en">${escapeHtml(pic.phonetic)}</span>` : ""}
+            </div>
+          </div>
           <p class="vocab-meaning">${escapeHtml(meaning)}</p>
         </div>
         ${showActions ? `
@@ -484,7 +495,7 @@
                    example: cached.definitions[0]?.example, pos: cached.definitions[0]?.pos, source: "api" };
         }
         const local = getLocalEntries("all").find(e => e.word === w);
-        return local || { word: w, meaning: "Sin datos locales", source: "api" };
+        return local || { word: w, meaning: "Sin datos locales", source: "api", category: "" };
       });
       title = "Vocabulario enriquecido (API)";
     } else if (currentView === "category" && currentCategory.startsWith("sci-")) {
@@ -496,7 +507,8 @@
           meaning: entry.definitions?.[0]?.definition || entry.meaning || "Ver detalles",
           example: entry.definitions?.[0]?.example,
           pos: entry.definitions?.[0]?.pos,
-          source: "api"
+          source: "api",
+          category: cat
         }));
         title = `Categoría: ${cat.replace("_", " ")}`;
       } else {

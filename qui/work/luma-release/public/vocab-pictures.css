@@ -1,0 +1,53 @@
+/* Miniaturas de referencia del banco de palabras · mismos tokens que Luma. */
+.ll-word-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.ll-word-label {
+  min-width: 0;
+}
+.ll-word-head h2 {
+  margin: 0;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+.ll-word-picture {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 0.9rem;
+  background: var(--pale, #eeebfa);
+  border: 1px solid #e2ddf3;
+  font-size: 1.55rem;
+  line-height: 1;
+  box-shadow: 0 2px 8px #34304f0a;
+}
+.ll-word-phonetic {
+  display: block;
+  margin-top: 0.2rem;
+  color: #625292;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+.ll-save {
+  align-self: flex-start;
+}
+
+@media (max-width: 740px) {
+  .ll-word-picture {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    border-radius: 0.8rem;
+    font-size: 1.35rem;
+  }
+  .ll-word-head {
+    gap: 0.55rem;
+  }
+}

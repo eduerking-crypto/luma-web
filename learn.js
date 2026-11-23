@@ -1640,11 +1640,16 @@
         `${matches.length} ${matches.length === 1 ? "entrada" : "entradas"} · ${topic}`;
       grid.innerHTML = words.length
         ? words
-            .map(([en, es, example], i) =>
-              card(
-                `<p class="ll-word-class">${wordInfo.get(en).topic} · ${wordInfo.get(en).kind}</p><div class="ll-row ll-between"><h2 lang="en">${en}</h2><button class="ll-save" type="button" data-save="${i}" aria-pressed="${saved.includes(en)}" aria-label="${saved.includes(en) ? "Quitar de guardadas" : "Guardar"} ${en}">${saved.includes(en) ? "★" : "☆"}</button></div><p class="ll-trans">${es}</p><p lang="en">${example}</p>${action("sound-" + i, "Escuchar ejemplo")}${feedback()}`,
-              ),
-            )
+            .map(([en, es, example], i) => {
+              const info = wordInfo.get(en);
+              const pic = window.LumaVocabPictures?.picture(en, info.topic) || {
+                emoji: "🔤",
+                phonetic: "",
+              };
+              return card(
+                `<p class="ll-word-class">${info.topic} · ${info.kind}</p><div class="ll-row ll-between"><div class="ll-word-head"><span class="ll-word-picture" aria-hidden="true">${pic.emoji}</span><div class="ll-word-label"><h2 lang="en">${en}</h2>${pic.phonetic ? `<span class="ll-word-phonetic" lang="en">${pic.phonetic}</span>` : ""}</div></div><button class="ll-save" type="button" data-save="${i}" aria-pressed="${saved.includes(en)}" aria-label="${saved.includes(en) ? "Quitar de guardadas" : "Guardar"} ${en}">${saved.includes(en) ? "★" : "☆"}</button></div><p class="ll-trans">${es}</p><p lang="en">${example}</p>${action("sound-" + i, "Escuchar ejemplo")}${feedback()}`,
+              );
+            })
             .join("")
         : card(
             `<h2>${topic === "Guardadas" && !all.length ? "Tu colección empieza aquí" : "Sin coincidencias"}</h2><p>${topic === "Guardadas" && !all.length ? "Usa la estrella de una palabra para volver a ella más tarde." : "Prueba otro término o cambia de tema."}</p>`,
