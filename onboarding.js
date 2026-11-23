@@ -33,17 +33,9 @@
     ["C1", "Busco precisi\u00f3n", "Quiero distinguir matices y defender con evidencia."],
   ];
 
-  // Disciplinas (coinciden con las de la app)
-  const SCIENCE = [
-    ["all", "Todas", "shuffle"],
-    ["ocean", "Marina", "waves"],
-    ["space", "Astronom\u00eda", "telescope"],
-    ["plants", "Bot\u00e1nica", "leaf"],
-    ["physics", "F\u00edsica", "atom"],
-    ["chemistry", "Qu\u00edmica", "flask-conical"],
-    ["math", "Matem\u00e1ticas", "shapes"],
-    ["earth", "Tierra", "earth"],
-  ];
+  // Disciplinas y ramas: una sola fuente compartida con el resto de Luma.
+  const catalog = window.LumaScienceCatalog;
+  const SCIENCE = catalog.SCIENCES.map((s) => [s.id, s.short || s.label, s.icon]);
 
   // Objetivo diario en actividades (misma semántica de la app)
   const GOALS = [
@@ -57,7 +49,7 @@
   let root = null;
   let apiRef = null;
   let idx = 0;
-  const draft = { name: "", level: "A1", interest: "all", goal: 3, email: "" };
+  const draft = { name: "", level: "A1", interest: "all", branch: "", goal: 3, email: "" };
 
   const levelGuard = () => (apiRef ? apiRef.level() : "A1");
 
@@ -71,9 +63,10 @@
     draft.name = String(apiRef.get("name", "") || "");
     const lv = levelGuard();
     draft.level = LEVELS.some(([l]) => l === lv) ? lv : "A1";
-    draft.interest = SCIENCE.some(([i]) => i === apiRef.get("interest", "all"))
-      ? apiRef.get("interest", "all")
-      : "all";
+    const savedInterest = catalog.normalize(apiRef.get("interest", "all"));
+    draft.interest = SCIENCE.some(([i]) => i === savedInterest) ? savedInterest : "all";
+    const savedBranch = catalog.branchFor(draft.interest, apiRef.get("scienceBranch", ""));
+    draft.branch = savedBranch ? savedBranch.label : "";
     const g = Number(apiRef.get("goal", 3));
     draft.goal = GOALS.some(([n]) => n === g) ? g : 3;
   }
@@ -156,9 +149,9 @@
         <div class="ob-actions"><button type="button" class="solid-button" data-ob-next>Continuar</button></div>`;
 
     if (step === "science")
-      return `<h1 class="ob-title">\u00bfQu\u00e9 ciencia te gusta?</h1>
-        <p class="ob-sub">Elige tu favorita para empezar, o lleva todas.</p>
-        <div class="ob-grid science ob-options" role="group" aria-label="Disciplina cient\u00edfica">
+      return `<h1 class="ob-title">¿Qué ciencia te gusta?</h1>
+        <p class="ob-sub">Elige una disciplina y, si quieres, una rama. La metodología de lectura se adapta a tu elección.</p>
+        <div class="ob-grid science ob-options" role="group" aria-label="Disciplina científica">
           ${SCIENCE.map(
             ([id, name, glyph]) => `
             <button type="button" class="ob-opt" data-ob-interest="${id}" aria-pressed="${draft.interest === id}">
@@ -168,6 +161,7 @@
             </button>`,
           ).join("")}
         </div>
+        ${branchMarkup(draft.interest, draft.branch)}
         <div class="ob-actions"><button type="button" class="solid-button" data-ob-next>Continuar</button></div>`;
 
     if (step === "goal")
@@ -199,6 +193,40 @@
 
   function firstName(name) {
     return String(name).trim().split(/\s+/)[0] || "";
+  }
+
+  function branchMarkup(scienceId, selectedBranch) {
+    const science = catalog.get(scienceId);
+    const branch = catalog.branchFor(scienceId, selectedBranch)?.label || "";
+    return `<div class="ob-branches" id="ob-branches">
+      <div class="ob-branch-head"><b>Ramas de estudio</b><span>${esc(science.method.name)}</span></div>
+      <p class="ob-method-q">${esc(science.method.question)}</p>
+      <div class="ob-branch-list">
+        <button type="button" data-ob-branch="" aria-pressed="${branch ? "false" : "true"}">Todas</button>
+        ${science.branches
+          .map(
+            (b) =>
+              `<button type="button" data-ob-branch="${esc(b.label)}" aria-pressed="${b.label === branch}">${esc(b.label)}</button>`
+          )
+          .join("")}
+      </div>
+    </div>`;
+  }
+  function bindBranches() {
+    root.querySelectorAll("[data-ob-branch]").forEach((b) => {
+      b.onclick = () => {
+        draft.branch = b.dataset.obBranch || "";
+        root.querySelectorAll("[data-ob-branch]").forEach((o) =>
+          o.setAttribute("aria-pressed", String(o === b)),
+        );
+      };
+    });
+  }
+  function updateBranches(scienceId, selectedBranch) {
+    const box = root && root.querySelector("#ob-branches");
+    if (!box) return;
+    box.outerHTML = branchMarkup(scienceId, selectedBranch);
+    bindBranches();
   }
 
   function bindStep(step, isLast) {
@@ -233,11 +261,14 @@
       root.querySelectorAll("[data-ob-interest]").forEach((b) => {
         b.onclick = () => {
           draft.interest = b.dataset.obInterest;
+          draft.branch = "";
           root.querySelectorAll("[data-ob-interest]").forEach((o) =>
             o.setAttribute("aria-pressed", String(o === b)),
           );
+          updateBranches(draft.interest, draft.branch);
         };
       });
+      bindBranches();
     }
     if (step === "goal") {
       root.querySelectorAll("[data-ob-goal]").forEach((b) => {
@@ -276,6 +307,7 @@
     apiRef.set("name", draft.name.trim() || "Explorador");
     apiRef.set("level", draft.level);
     apiRef.set("interest", draft.interest);
+    apiRef.set("scienceBranch", draft.branch);
     apiRef.set("goal", draft.goal);
     const email = String(draft.email || "").trim();
     if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

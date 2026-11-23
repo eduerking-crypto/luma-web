@@ -18,6 +18,7 @@ const clean = url.replace(/\/+$/, "");
 
 // 1. Actualiza capacitor.config.json
 const config = JSON.parse(readFileSync(configPath, "utf8"));
+config.server = config.server || {};
 config.server.url = clean;
 writeFileSync(configPath, JSON.stringify(config, null, 2) + "\n");
 console.log(`capacitor.config.json -> ${clean}`);

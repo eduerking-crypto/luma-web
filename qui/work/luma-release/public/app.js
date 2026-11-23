@@ -64,16 +64,9 @@
     theory: ["#f8eeca", "#907213"],
     exams: ["#e2ecfb", "#5e75a2"],
   };
-  const interests = [
-    ["all", "Todas las ciencias", "shuffle"],
-    ["ocean", "Biología marina", "waves"],
-    ["space", "Astronomía", "telescope"],
-    ["plants", "Botánica", "leaf"],
-    ["physics", "Física", "atom"],
-    ["chemistry", "Química", "flask-conical"],
-    ["math", "Matemáticas", "shapes"],
-    ["earth", "Ciencias de la Tierra", "earth"],
-  ];
+  const catalog = window.LumaScienceCatalog;
+  const interests = catalog.SCIENCES.map((s) => [s.id, s.label, s.icon]);
+  const normalizeInterest = (id) => catalog.normalize(id);
   const levels = ["A1", "A2", "B1", "B2", "C1"];
   const root = document.getElementById("content"),
     rail = document.getElementById("rail"),
@@ -130,6 +123,17 @@
     clearTimeout(syncTimer);
     syncTimer = setTimeout(flush, 450);
     if (["name", "level", "largeText", "reduceMotion"].includes(key)) chrome();
+  }
+  // Las ideas antiguas (océano, espacio, plantas, Tierra) siguen abriendo su
+  // disciplina actual: Biología, Astronomía o Ingenierías.
+  function migrateSciences() {
+    const raw = get("interest", "all");
+    const fixed = normalizeInterest(raw);
+    if (raw !== fixed) set("interest", fixed);
+    const dailyKey = "daily.selection." + dayId();
+    const dailyRaw = get(dailyKey, null);
+    if (dailyRaw && normalizeInterest(dailyRaw) !== dailyRaw)
+      set(dailyKey, normalizeInterest(dailyRaw));
   }
   async function flush() {
     if (!connected || flushing) return;
@@ -335,18 +339,45 @@
         <span class="session-indicator" aria-label="${lesson.done ? "Sesión completada" : "Paso " + lesson.step + " de 3"}">${[1, 2, 3].map((n) => `<i class="${lesson.done || n <= lesson.step ? "selected" : ""}"></i>`).join("")}</span>
       </div>`;
   }
+  let topicDialogScience = null;
+  function topicBranchMarkup(scienceId, selectedBranch) {
+    const science = catalog.get(scienceId);
+    const branch = catalog.branchFor(scienceId, selectedBranch)?.label || "";
+    return `<section class="topic-branch-panel" aria-label="Ramas de ${escape(science.label)}">
+      <p class="topic-branch-title">Ramas de ${escape(science.label)}</p>
+      <div class="topic-branch-grid">
+        <button type="button" data-topic-branch="" aria-pressed="${!branch}">Todas las ramas</button>
+        ${science.branches
+          .map(
+            (b) =>
+              `<button type="button" data-topic-branch="${escape(b.label)}" aria-pressed="${b.label === branch}">${escape(b.label)}</button>`,
+          )
+          .join("")}
+      </div>
+      <p class="topic-method">${icon("target", 13)} ${escape(science.method.name)} · ${escape(science.method.focus)}</p>
+    </section>`;
+  }
+  function drawTopicChoices(dialog, scienceId, branch) {
+    topicDialogScience = normalizeInterest(scienceId);
+    dialog.querySelector(".topic-options").innerHTML = `
+      <div class="topic-science-grid">${interests
+        .map(
+          ([id, name, glyph]) =>
+            `<button type="button" data-topic-science="${id}" aria-pressed="${id === topicDialogScience}">${icon(glyph, 19)} <span>${name}</span>${id === topicDialogScience ? icon("check", 16) : ""}</button>`,
+        )
+        .join("")}</div>
+      ${topicBranchMarkup(topicDialogScience, branch)}`;
+  }
   function openTopics() {
     const dialog = document.getElementById("topics");
-    const choice =
-      get("daily.selection." + dayId(), null) || get("interest", "all");
-    dialog.querySelector(".topic-options").innerHTML = interests
-      .map(
-        ([id, name, glyph]) =>
-          `<button type="button" data-interest="${id}" aria-pressed="${id === choice}">${icon(glyph, 19)} <span>${name}</span>${id === choice ? icon("check", 16) : ""}</button>`,
-      )
-      .join("");
+    const choice = normalizeInterest(
+      get("daily.selection." + dayId(), null) || get("interest", "all"),
+    );
+    drawTopicChoices(dialog, choice, get("scienceBranch", ""));
     dialog.showModal();
-    dialog.querySelector('[aria-pressed="true"]')?.focus();
+    dialog
+      .querySelector('[data-topic-science][aria-pressed="true"]')
+      ?.focus();
   }
   function pageIntro(group, title, desc, glyph = "atom") {
     return `<div class="page-intro"><div class="page-tag">${icon(glyph, 14)} ${group}</div><h1>${title}</h1><p>${desc}</p></div>`;
@@ -367,7 +398,7 @@
  <div class="hero-grid"><article class="feature" id="feature">${feature()}</article><aside class="tutor-card"><span class="tutor-tag">${icon("sparkles", 14)} TUTOR DE CIENCIA</span><div class="lumi-wrap"><img src="assets/lumi-cutout.webp" alt="Lumi, un ajolote lavanda con gafas y bata"><span class="spark-decoration">${icon("sparkles", 16)}</span><span class="spark-decoration second">${icon("star", 12)}</span></div><h2>Aprende con Lumi</h2><p>Tu guía de ciencia e inglés.</p><button class="outline-button" data-luma-go="tutor" aria-label="Hablar con Lumi">${icon("message-circle", 15)} Hablar con Lumi</button></aside></div>
  <section class="section"><div class="section-title"><h2>Mesa de práctica</h2><button class="text-button" data-luma-go="practice">Ver actividades ${icon("chevron-right", 14)}</button></div><div class="practice-grid">${skills.map(studyCard).join("")}</div></section>
  ${featuredReads()}
- <section class="section"><div class="section-title"><h2>Ciencia real</h2><button class="text-button" data-luma-go="research">Abrir artículos ${icon("chevron-right", 14)}</button></div><div class="panel">${row("research", "Artículos de revistas científicas sobre la ciencia que elegiste.")}</div></section>
+ <section class="section"><div class="section-title"><h2>Ciencia real</h2><button class="text-button" data-luma-go="research">Abrir artículos ${icon("chevron-right", 14)}</button></div><div class="panel">${row("research", "Artículos de revistas científicas sobre " + escape(catalog.labelFor(get("interest", "all"))) + ".")}</div></section>
   <section class="section"><div class="section-title"><h2>Mi plan de estudio</h2><button class="text-button" data-luma-go="path">Ver ruta de estudio ${icon("chevron-right", 14)}</button></div><div class="mini-grid"><div class="panel"><div class="panel-header"><h3>Continúa practicando</h3><span class="eyeline">NIVEL ${level()}</span></div>${row("vocabulary", "Repasa las palabras que ya has visto.")}${row("exams", "Aplica lo aprendido en un caso nuevo.")}${row("present", "Prepara tu próxima exposición en inglés.")}</div><div class="panel"><div class="panel-header"><h3>Objetivo diario</h3><span class="eyeline">${completed} / ${goal}</span></div><div class="progress-track" role="progressbar" aria-label="Actividades de hoy" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${Math.min(goal, completed)}"><i style="width:${Math.min(100, (completed / goal) * 100)}%"></i></div>${week()}<p class="status-text">${completed >= goal ? "Has alcanzado tu objetivo de hoy." : completed ? "Cada actividad cuenta para tu racha." : "Completa una actividad para encender tu racha."}</p><button class="text-button" data-luma-go="streak">Mi progreso ${icon("chevron-right", 14)}</button></div></div></section>`;
   }
   function pathPage() {
@@ -451,7 +482,7 @@
         "Ajusta tu perfil, el nivel de inglés y tu objetivo de práctica.",
         "settings",
       ) +
-      `<form id="settings-form" class="settings-list"><div class="panel settings-grid"><h2>Mi aprendizaje</h2><label class="field"><span>Nombre</span><input name="name" required maxlength="32" value="${escape(get("name", "Explorador"))}" autocomplete="given-name"></label><label class="field"><span>Nivel de inglés</span><select name="level">${levels.map((l, i) => `<option value="${l}" ${level() === l ? "selected" : ""}>${l} · ${["Inicial", "Elemental", "Intermedio", "Intermedio alto", "Avanzado"][i]}</option>`).join("")}</select></label><label class="field"><span>Disciplina preferida</span><select name="interest">${interests.map(([id, name]) => `<option value="${id}" ${get("interest", "all") === id ? "selected" : ""}>${name}</option>`).join("")}</select></label><label class="field"><span>Velocidad de la voz</span><select name="speechRate">${[
+      `<form id="settings-form" class="settings-list"><div class="panel settings-grid"><h2>Mi aprendizaje</h2><label class="field"><span>Nombre</span><input name="name" required maxlength="32" value="${escape(get("name", "Explorador"))}" autocomplete="given-name"></label><label class="field"><span>Nivel de inglés</span><select name="level">${levels.map((l, i) => `<option value="${l}" ${level() === l ? "selected" : ""}>${l} · ${["Inicial", "Elemental", "Intermedio", "Intermedio alto", "Avanzado"][i]}</option>`).join("")}</select></label><label class="field"><span>Disciplina preferida</span><select name="interest">${interests.map(([id, name]) => `<option value="${id}" ${normalizeInterest(get("interest", "all")) === id ? "selected" : ""}>${name}</option>`).join("")}</select></label><label class="field"><span>Rama de estudio</span><select name="scienceBranch" id="settings-branch"></select></label><p class="status-text" id="settings-method" aria-live="polite"></p><label class="field"><span>Velocidad de la voz</span><select name="speechRate">${[
         [0, "Según el nivel"],
         [0.75, "Lenta · 0,75×"],
         [1, "Normal · 1×"],
@@ -469,6 +500,24 @@
       <button type="button" class="outline-button" data-install-luma>${icon("download", 17)} Instalar Luma</button>
       <div class="install-help" data-install-help tabindex="-1" hidden><p>En Chrome o Edge, abre el menú del navegador y busca la opción de instalar la aplicación. En Safari del iPhone o iPad, abre Compartir y elige «Añadir a pantalla de inicio».</p><p>Si estás usando el visor de Codex, abre el enlace en el navegador de tu dispositivo.</p></div></section>
       <div class="panel settings-grid"><h2>Introducci\u00f3n</h2><button type="button" class="outline-button" data-luma-go="onboarding">${icon("sparkles", 16)} Ver la introducci\u00f3n otra vez</button><p class="status-text">Repite la bienvenida para cambiar tu nombre, nivel, disciplina u objetivo.</p></div>`;
+    const interestSelect = root.querySelector('[name="interest"]');
+    const branchSelect = root.querySelector("#settings-branch");
+    const methodNote = root.querySelector("#settings-method");
+    function syncBranchOptions(preferred) {
+      const science = catalog.get(interestSelect.value);
+      const branch = catalog.branchFor(science.id, preferred)?.label || "";
+      branchSelect.innerHTML =
+        `<option value="" ${branch ? "" : "selected"}>Todas las ramas</option>` +
+        science.branches
+          .map(
+            (b) =>
+              `<option value="${escape(b.label)}" ${b.label === branch ? "selected" : ""}>${escape(b.label)}</option>`,
+          )
+          .join("");
+      methodNote.innerHTML = `${icon("target", 13)} ${escape(science.method.name)} · ${escape(science.method.focus)}`;
+    }
+    syncBranchOptions(get("scienceBranch", ""));
+    interestSelect.onchange = () => syncBranchOptions("");
     window.LumaInstall?.update();
   }
   const narrow = window.matchMedia("(max-width:740px)");
@@ -607,14 +656,23 @@
     if (btn.dataset.action === "topics") openTopics();
     if (btn.dataset.action === "close-topics")
       document.getElementById("topics").close();
-    if (
-      btn.hasAttribute("data-interest") &&
-      interests.some(([id]) => id === btn.dataset.interest)
-    ) {
-      set("daily.selection." + dayId(), btn.dataset.interest);
+    if (btn.hasAttribute("data-topic-science")) {
+      const dialog = document.getElementById("topics");
+      drawTopicChoices(dialog, btn.dataset.topicScience, get("scienceBranch", ""));
+      dialog
+        .querySelector('[data-topic-branch][aria-pressed="true"]')
+        ?.focus();
+      return;
+    }
+    if (btn.hasAttribute("data-topic-branch")) {
+      const science = topicDialogScience || normalizeInterest(get("interest", "all"));
+      set("daily.selection." + dayId(), science);
+      set("interest", science);
+      set("scienceBranch", btn.dataset.topicBranch || "");
       document.getElementById("topics").close();
       home();
       root.querySelector("[data-action=topics]")?.focus();
+      return;
     }
     if (btn.hasAttribute("data-install-luma")) window.LumaInstall.install();
   });
@@ -624,9 +682,12 @@
     const f = new FormData(e.target);
     set("name", String(f.get("name")).trim() || "Explorador");
     set("level", f.get("level"));
-    if (get("interest", "all") !== f.get("interest"))
+    const nextInterest = normalizeInterest(f.get("interest"));
+    if (normalizeInterest(get("interest", "all")) !== nextInterest)
       set("daily.selection." + dayId(), null);
-    set("interest", f.get("interest"));
+    set("interest", nextInterest);
+    const nextBranch = catalog.branchFor(nextInterest, f.get("scienceBranch"))?.label || "";
+    set("scienceBranch", nextBranch);
     set("speechRate", Number(f.get("speechRate")));
     set("goal", Number(f.get("goal")));
     set("largeText", f.has("large"));
@@ -679,6 +740,7 @@
   window.addEventListener("focus", () => {
     if (connected) flush();
   });
+  migrateSciences();
   if (!Object.keys(state).length && location.protocol !== "file:") {
     firstSync = hydrate().finally(() => {
       firstSync = null;

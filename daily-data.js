@@ -1,8 +1,9 @@
 (() => {
   "use strict";
 
+  const catalog = window.LumaScienceCatalog;
   const levels = ["A1", "A2", "B1", "B2", "C1"];
-  const topics = {
+  const legacyTopics = {
     ocean: {
       title: "Light in the deep",
       theme: "Biología marina",
@@ -110,7 +111,7 @@
   function lesson(en, es, words, question, answer, alternatives, note, model) {
     return { en, es, words, question, answer, alternatives, note, model };
   }
-  const material = {
+  const legacyMaterial = {
     physics: {
       A1: lesson(
         "Two black holes meet in space. They make waves. A detector on Earth can find these waves.",
@@ -422,9 +423,263 @@
     },
   };
 
+  const cap = (text) => String(text || "").charAt(0).toUpperCase() + String(text || "").slice(1);
+  // Nombre legible en inglés de la rama (wiki sin aclaraciones entre paréntesis).
+  const enBranch = (branch) =>
+    String(branch?.wiki || branch?.label || "")
+      .replace(/\s*\([^)]*\)/g, "")
+      .toLowerCase();
+
+  function topicPhrases(id, branchLabel) {
+    const science = catalog.get(id);
+    const branch = catalog.branchFor(id, branchLabel) || science.branches[0];
+    const verbs = science.method.verbs;
+    return [
+      `Researchers study ${enBranch(branch)}.`,
+      `They ${verbs[0][0]} and look for ${science.method.evidenceEn}.`,
+      science.method.questionEn,
+      `The conclusion is limited by ${science.method.evidenceEn}.`,
+      "A defensible claim states what the evidence warrants and what it does not.",
+    ];
+  }
+
+  function makeTopic(id, config) {
+    const science = catalog.get(id);
+    return {
+      title: config.title,
+      theme: `${science.label} · ${config.branch}`,
+      image: config.image || science.image,
+      prompt: config.prompt,
+      sourceName: config.sourceName,
+      sourceDate: config.sourceDate,
+      sourceUrl: config.sourceUrl,
+      branch: config.branch,
+      extra: config.extra || [],
+      phrases: topicPhrases(id, config.branch),
+    };
+  }
+
+  // 13 disciplinas + "Todas". El vocabulario y la teoría no cambian: lo que
+  // cambia es la lente metodológica con la que se lee cada tema.
+  const topics = {
+    all: makeTopic("all", {
+      title: "What makes a claim scientific?",
+      branch: "Método científico",
+      prompt: "¿Cómo sabemos si una idea científica está bien respaldada?",
+      image: "sample",
+      sourceName: "Wikipedia · Scientific method",
+      sourceDate: "referencia educativa",
+      sourceUrl: "https://en.wikipedia.org/wiki/Scientific_method",
+    }),
+    math: { ...legacyTopics.math, branch: "Geometría", theme: "Matemática · Geometría" },
+    physics: { ...legacyTopics.physics, branch: "Relatividad", theme: "Física · Relatividad" },
+    biology: { ...legacyTopics.ocean, branch: "Biología marina", theme: "Biología · Biología marina" },
+    chemistry: { ...legacyTopics.chemistry, branch: "Fisicoquímica", theme: "Química · Fisicoquímica" },
+    medicine: makeTopic("medicine", {
+      title: "Patterns in a clinical trial",
+      branch: "Epidemiología",
+      prompt: "¿Cómo comparamos un tratamiento con la evidencia disponible?",
+      sourceName: "PubMed · Randomized controlled trial",
+      sourceDate: "base de datos biomédica",
+      sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/?term=randomized+controlled+trial",
+    }),
+    astronomy: { ...legacyTopics.space, branch: "Formación estelar", theme: "Astronomía · Formación estelar" },
+    statistics: makeTopic("statistics", {
+      title: "How sure is the estimate?",
+      branch: "Inferencia estadística",
+      prompt: "¿Qué nos dice una estimación sobre un grupo más grande?",
+      image: "math",
+      sourceName: "American Statistical Association · What is statistics?",
+      sourceDate: "recurso educativo",
+      sourceUrl: "https://www.amstat.org/asa/education/what-is-statistics.aspx",
+    }),
+    engineering: { ...legacyTopics.earth, branch: "Ingeniería ambiental", theme: "Ingenierías · Ingeniería ambiental" },
+    biotechnology: makeTopic("biotechnology", {
+      title: "A programmable cut",
+      branch: "Ingeniería genética",
+      prompt: "¿Cómo puede una herramienta molecular cambiar una secuencia?",
+      image: "ink",
+      sourceName: "Science · Jinek et al. 2012",
+      sourceDate: "2012",
+      sourceUrl: "https://doi.org/10.1126/science.1225829",
+    }),
+    linguistics: makeTopic("linguistics", {
+      title: "Where meaning lives",
+      branch: "Semántica",
+      prompt: "¿Cómo construimos significado con palabras y contexto?",
+      image: "ink",
+      sourceName: "Stanford Encyclopedia of Philosophy · Semantics",
+      sourceDate: "referencia académica",
+      sourceUrl: "https://plato.stanford.edu/entries/semantics/",
+    }),
+    sociology: makeTopic("sociology", {
+      title: "Who gets heard online?",
+      branch: "Sociología digital",
+      prompt: "¿Qué relación hay entre una comunidad y lo que comparte?",
+      image: "transit",
+      sourceName: "Digital Sociology · Social media research",
+      sourceDate: "2020",
+      sourceUrl: "https://doi.org/10.26425/2658-347x-2019-4-4-10",
+    }),
+    microbiology: makeTopic("microbiology", {
+      title: "The community inside us",
+      branch: "Microbiología clínica",
+      prompt: "¿Qué podemos aprender de una comunidad de microorganismos?",
+      image: "sample",
+      sourceName: "Nature · Human Microbiome Project",
+      sourceDate: "2012",
+      sourceUrl: "https://doi.org/10.1038/nature11234",
+    }),
+    molecular_biology: makeTopic("molecular_biology", {
+      title: "Two chains, one message",
+      branch: "Genómica",
+      prompt: "¿Cómo guarda una molécula la información de un ser vivo?",
+      image: "ink",
+      sourceName: "Nature · Watson & Crick 1953",
+      sourceDate: "1953",
+      sourceUrl: "https://doi.org/10.1038/171737a0",
+    }),
+  };
+
+  const material = {
+    physics: legacyMaterial.physics,
+    chemistry: legacyMaterial.chemistry,
+    math: legacyMaterial.math,
+    engineering: legacyMaterial.earth,
+  };
+
+  function makeLesson(id, level) {
+    const science = catalog.get(id);
+    const topic = topics[id] || topics.all;
+    const branch = catalog.branchFor(id, topic.branch) || science.branches[0];
+    const verbs = science.method.verbs;
+    const evidenceEn = science.method.evidenceEn;
+    const evidenceEs = science.method.evidence;
+    const i = Math.max(0, levels.indexOf(level));
+
+    const en = [
+      [
+        `Scientists study ${enBranch(branch)}.`,
+        `They ${verbs[0][0]} what they can observe.`,
+        `They look for ${evidenceEn}.`,
+      ],
+      [
+        `In ${science.en}, researchers study ${enBranch(branch)}.`,
+        `They ${verbs[0][0]} observations and ${verbs[1][0]} two cases.`,
+        `${cap(evidenceEn)} help them explain what happens.`,
+        "A first idea can change when new information appears.",
+      ],
+      [
+        `Researchers in ${science.en} ask a clear question about ${enBranch(branch)}.`,
+        `They ${verbs[0][0]} carefully and look for ${evidenceEn}.`,
+        `Their explanation links the question with ${evidenceEn}.`,
+        "However, one study cannot settle every question.",
+        `${cap(science.method.questionEn)} That is the reading focus.`,
+      ],
+      [
+        `A study of ${enBranch(branch)} begins with a question and a set of constraints.`,
+        `The team uses ${evidenceEn} to test an explanation.`,
+        "The result is credible when the method is stated and the data can be checked.",
+        "Nevertheless, the conclusion is limited by the sample, the instrument or the model.",
+        "A careful reader separates the observation from the interpretation.",
+      ],
+      [
+        `The account of ${enBranch(branch)} rests on a chain of observations, models and qualifications.`,
+        `Evidence from ${evidenceEn} supports one interpretation, but it does not close the question.`,
+        "A competing explanation is useful when it predicts a different result.",
+        "The claim is strongest where the method, the limitation and the alternative are made explicit.",
+        `${cap(science.method.questionEn)} A defensible answer states what the evidence warrants and what it does not.`,
+      ],
+    ];
+
+    const es = [
+      [
+        `Los científicos estudian ${branch.label.toLowerCase()}.`,
+        `Ellos ${verbs[0][1]} lo que pueden observar.`,
+        `Buscan ${evidenceEs}.`,
+      ],
+      [
+        `En ${science.label.toLowerCase()}, los investigadores estudian ${branch.label.toLowerCase()}.`,
+        `Ellos ${verbs[0][1]} observaciones y ${verbs[1][1]} dos casos.`,
+        `${cap(evidenceEs)} ayudan a explicar lo que ocurre.`,
+        "Una primera idea puede cambiar si aparece nueva información.",
+      ],
+      [
+        `Los investigadores de ${science.label.toLowerCase()} se hacen una pregunta clara sobre ${branch.label.toLowerCase()}.`,
+        `Ellos ${verbs[0][1]} con cuidado y buscan ${evidenceEs}.`,
+        `Su explicación une la pregunta con ${evidenceEs}.`,
+        "Sin embargo, un solo estudio no responde todo.",
+        `${science.method.question} Ese es el centro de la lectura.`,
+      ],
+      [
+        `Un estudio sobre ${branch.label.toLowerCase()} empieza con una pregunta y unas condiciones.`,
+        `El equipo usa ${evidenceEs} para poner a prueba una explicación.`,
+        "El resultado es más creíble cuando el método está claro y los datos se pueden revisar.",
+        "Aun así, la conclusión está limitada por la muestra, el instrumento o el modelo.",
+        "Un lector cuidadoso separa la observación de la interpretación.",
+      ],
+      [
+        `La explicación de ${branch.label.toLowerCase()} descansa en una cadena de observaciones, modelos y matices.`,
+        `${cap(evidenceEs)} respaldan una interpretación, pero no cierran la pregunta.`,
+        "Una explicación rival sirve cuando predice un resultado distinto.",
+        "La afirmación es más sólida cuando se explican el método, el límite y la alternativa.",
+        `${science.method.question} Una respuesta defendible dice qué respalda la evidencia y qué no.`,
+      ],
+    ];
+
+    const questions = [
+      {
+        q: "What do scientists look for?",
+        a: cap(evidenceEn),
+        wrong: ["Only a title.", "A random guess.", "Nothing at all."],
+        note: `Evidence significa evidencia. En ${science.label.toLowerCase()} se revisa ${evidenceEs}.`,
+      },
+      {
+        q: `How do researchers study ${enBranch(branch)}?`,
+        a: `They ${verbs[0][0]} and look for ${evidenceEn}.`,
+        wrong: ["They only guess.", "They copy a title.", "They never compare."],
+        note: `${cap(verbs[0][1])} y comparar son pasos del método en ${science.label.toLowerCase()}.`,
+      },
+      {
+        q: science.method.questionEn,
+        a: `The claim has to fit ${evidenceEn}.`,
+        wrong: ["Any idea is equally strong.", "A title proves the claim.", "Repeating a guess is evidence."],
+        note: `Una explicación debe apoyarse en ${evidenceEs}.`,
+      },
+      {
+        q: "Which detail makes the conclusion more credible?",
+        a: "A stated method and data that can be checked.",
+        wrong: ["A confident tone.", "A longer title.", "A single observation without comparison."],
+        note: "Credible significa creíble: el método y los datos permiten revisar la afirmación.",
+      },
+      {
+        q: `Which answer is most warranted about ${enBranch(branch)}?`,
+        a: "A provisional claim supported by evidence and aware of its limits.",
+        wrong: ["A definitive law from one study.", "A claim with no alternative considered.", "A guess repeated many times."],
+        note: "Warranted indica lo que la evidencia justifica, no lo que prueba de forma absoluta.",
+      },
+    ];
+
+    const q = questions[i];
+    return {
+      en: en[i].join("\n\n"),
+      es: es[i].join("\n\n"),
+      words: verbs.slice(0, 3).map((v) => [v[0], v[1]]),
+      question: q.q,
+      answer: q.a,
+      alternatives: q.wrong,
+      note: q.note,
+      model: topic.phrases[i] || topic.phrases[0],
+    };
+  }
+
+  // Las lecturas curadas se conservan; las demás disciplinas usan el generador
+  // metodológico, sin tocar el vocabulario ni la teoría compartidos.
   function getReading(id, level) {
-    if (id === "ocean") {
-      const u = window.LumaLearn.unit(level);
+    const key = catalog.normalize(id);
+    const safeLevel = levels.includes(level) ? level : "A1";
+    if (key === "biology") {
+      const u = window.LumaLearn.unit(safeLevel);
       return {
         en: u.en.join("\n\n"),
         es: u.es.join("\n\n"),
@@ -433,14 +688,11 @@
         answer: u.read.options[u.read.answer],
         alternatives: u.read.options.filter((_, i) => i !== u.read.answer),
         note: u.read.why,
-        model: u.model,
+        model: legacyTopics.ocean.phrases[levels.indexOf(safeLevel)],
       };
     }
-    if (id === "space" || id === "plants") {
-      const r = window.LumaLibrary.lesson(
-        id === "space" ? "astro" : "plants",
-        level,
-      );
+    if (key === "astronomy") {
+      const r = window.LumaLibrary.lesson("astro", safeLevel);
       return {
         en: r.en,
         es: r.es,
@@ -449,10 +701,12 @@
         answer: r.options[r.answer],
         alternatives: r.options.filter((_, i) => i !== r.answer),
         note: r.note,
-        model: topics[id].phrases[levels.indexOf(level)],
+        model: legacyTopics.space.phrases[levels.indexOf(safeLevel)],
       };
     }
-    return material[id][level];
+    if (material[key] && material[key][safeLevel]) return material[key][safeLevel];
+    return makeLesson(key, safeLevel);
   }
+
   window.LumaDailyData = Object.freeze({ topics, levels, getReading });
 })();

@@ -187,6 +187,55 @@ body.ob-active #toast {
 .ob-grid.science .ob-note {
   grid-column: 1 / -1;
 }
+.ob-branches {
+  grid-column: 1 / -1;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fbfaff;
+  padding: 12px;
+  margin: 2px 0 18px;
+}
+.ob-branch-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.ob-branch-head b {
+  font-size: 0.84rem;
+  color: var(--ink);
+}
+.ob-branch-head span {
+  color: var(--violet, #6653bd);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.ob-method-q {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+.ob-branch-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ob-branch-list button {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  font-weight: 620;
+}
+.ob-branch-list button[aria-pressed="true"] {
+  background: var(--pale);
+  border-color: #cfc4ee;
+  color: #51409f;
+}
 .ob-field {
   display: block;
   margin-bottom: 16px;

@@ -1,5 +1,6 @@
 (() => {
   "use strict";
+  const catalog = window.LumaScienceCatalog;
   const steps = ["Leer", "Comprender", "Explicar"];
   const instructions = {
     A1: [
@@ -63,8 +64,9 @@
     const data = window.LumaDailyData;
     const date = localDate(),
       ids = Object.keys(data.topics),
-      interest =
-        api.get("daily.selection." + date, null) || api.get("interest", "all");
+      interest = catalog.normalize(
+        api.get("daily.selection." + date, null) || api.get("interest", "all"),
+      );
     const id = Object.hasOwn(data.topics, interest)
       ? interest
       : ids[((ordinal(date) % ids.length) + ids.length) % ids.length];
@@ -161,11 +163,15 @@
               r &&
               r.date < date &&
               r.date >= localDate(-31) &&
-              Object.hasOwn(window.LumaDailyData.topics, r.id) &&
+              Object.hasOwn(
+                window.LumaDailyData.topics,
+                catalog.normalize(r.id),
+              ) &&
               window.LumaDailyData.levels.includes(r.level),
           )
           .sort((a, b) => b.date.localeCompare(a.date))[0]
       : null;
+    return prev ? { ...prev, id: catalog.normalize(prev.id) } : null;
   }
   function persist(session, changes) {
     Object.assign(session.state, changes);

@@ -26,6 +26,43 @@
   color: #51409f;
 }
 
+.research-branches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+.research-branch-label {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  margin-right: 2px;
+}
+.research-branch {
+  border: 1px solid var(--line);
+  background: #fbfaff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.71rem;
+  font-weight: 620;
+}
+.research-branch.active {
+  background: #eeebfa;
+  border-color: #cfc4ee;
+  color: #51409f;
+}
+.research-method-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+.research-method-strip b { color: #51409f; }
+
 .research-status {
   display: flex;
   align-items: center;
@@ -170,6 +207,46 @@
 .research-full summary { cursor: pointer; color: var(--violet); font-weight: 650; }
 .research-full p { line-height: 1.6; margin: 8px 0 0; }
 
+.research-method {
+  background: #fbfaff;
+  border: 1px solid #e2dcf5;
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+.research-method-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #51409f;
+  font-size: 0.79rem;
+  font-weight: 750;
+}
+.research-method > p {
+  margin: 0;
+  color: #55586c;
+  font-size: 0.81rem;
+  line-height: 1.5;
+}
+.research-method-grid {
+  display: grid;
+  gap: 8px;
+}
+.research-method-grid > div {
+  display: grid;
+  gap: 2px;
+}
+.research-method-grid b {
+  color: var(--ink);
+  font-size: 0.73rem;
+}
+.research-method-grid span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
 .research-glossary h2 {
   display: flex;
   align-items: center;
@@ -195,4 +272,5 @@
   .research-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .research-wiki-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .research-terms { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .research-method-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }

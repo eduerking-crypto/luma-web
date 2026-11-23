@@ -6,6 +6,7 @@
   const api = window.LumaVocabAPI;
   const dailyData = window.LumaDailyData;
   const features = window.LumaFeatures;
+  const catalog = window.LumaScienceCatalog;
 
   function icon(name, size = 20) {
     return `<svg class="l-icon" aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${window.LUMA_ICONS[name] || window.LUMA_ICONS["circle-dot"]}</svg>`;
@@ -17,91 +18,43 @@
     })[c]);
   }
 
-  // Topic templates for different scientific domains
-  const TOPIC_TEMPLATES = {
-    marine_biology: {
-      themes: [
-        "bioluminiscencia", "arrecifes de coral", "migración marina", "zonas abisales",
-        "fitoplancton", "ácido oceánico", "corrientes termohalinas", "mamíferos marinos",
-        "ecosistemas de manglar", "especies invasoras marinas", "microplásticos",
-        "simbiosis coral-alga", "tiburones y rayas", "cefalópodos", "fuentes hidrotermales"
-      ],
-      vocabulary: ["ecosystem", "biodiversity", "habitat", "species", "population", "adaptation", "migration", "predator", "prey", "symbiosis"],
-      sources: ["NOAA Ocean Explorer", "Marine Biology Journal", "PLOS ONE", "Frontiers in Marine Science"]
-    },
-    astronomy: {
-      themes: [
-        "formación estelar", "exoplanetas", "agujeros negros", "materia oscura",
-        "ondas gravitacionales", "supernovas", "nebulosas", "cúmulos globulares",
-        "radiación de fondo", "inflación cósmica", "agujeros de gusano", "estrellas de neutrones",
-        "lentes gravitacionales", "curso principal", "enanas blancas"
-      ],
-      vocabulary: ["galaxy", "nebula", "supernova", "gravity", "orbit", "telescope", "lightyear", "redshift", "cosmic", "stellar"],
-      sources: ["NASA Science", "ESA", "Astrophysical Journal", "Nature Astronomy"]
-    },
-    botany: {
-      themes: [
-        "fotosíntesis C4", "comunicación vegetal", "micorrizas", "dispersión de semillas",
-        "adaptación al desierto", "plantas carnívoras", "alelos", "ritmos circadianos vegetales",
-        "fitorremediación", "polinización", "co-evolución", "domesticación",
-        "genómica de cultivos", "resistencia a sequía", "señalización hormonal"
-      ],
-      vocabulary: ["photosynthesis", "chlorophyll", "root", "leaf", "seed", "pollen", "stomata", "xylem", "phloem", "meristem"],
-      sources: ["Plant Cell", "New Phytologist", "Annals of Botany", "Frontiers in Plant Science"]
-    },
-    physics: {
-      themes: [
-        "entrelaazamiento cuántico", "superconductividad", "condensados de Bose-Einstein",
-        "efecto Hall cuántico", "plasmas de quarks-gluones", "materia oscura directa",
-        "oscilación de neutrinos", "violación CP", "física del Higgs", "gravedad cuántica de lazos",
-        "termalización cuántica", "aislantes topológicos", "cristales temporales", "simetría PT",
-        "hidrodinámica relativista"
-      ],
-      vocabulary: ["quantum", "particle", "wave", "energy", "field", "mass", "charge", "spin", "symmetry", "vacuum"],
-      sources: ["Physical Review Letters", "Nature Physics", "Science", "Physics Today"]
-    },
-    chemistry: {
-      themes: [
-        "catálisis enzimática", "química de clic", "marcos metal-orgánicos", "química supramolecular",
-        "polímeros conductores", "catálisis fotoredox", "química verde", "baterías de estado sólido",
-        "captura de carbono", "química de flujo", "autoensamblaje molecular", "quimioinformática",
-        "diseño de fármacos", "química prebiótica", "espectroscopía de un solo molécula"
-      ],
-      vocabulary: ["reaction", "catalyst", "molecule", "bond", "electron", "orbital", "synthesis", "yield", "solvent", "equilibrium"],
-      sources: ["Journal of the American Chemical Society", "Angewandte Chemie", "Nature Chemistry", "Chemical Science"]
-    },
-    earth_science: {
-      themes: [
-        "tectónica de placas", "ciclo del carbono", "paleoclima", "isótopos estables",
-        "geomorfología fluvial", "peligros volcánicos", "ciclo hidrológico", "calidad del aire",
-        "erosión costera", "permafrost", "ciclo del nitrógeno", "weathering químico",
-        "reconstrucción paleo", "modelos climáticos", "geoquímica de isótopos"
-      ],
-      vocabulary: ["plate", "tectonics", "volcano", "earthquake", "erosion", "sediment", "fossil", "mineral", "climate", "atmosphere"],
-      sources: ["Nature Geoscience", "Geophysical Research Letters", "Earth and Planetary Science Letters", "Science Advances"]
-    },
-    mathematics: {
-      themes: [
-        "teoría de grafos", "optimización convexa", "ecuaciones diferenciales estocásticas",
-        "topología algebraica", "teoría de números", "geometría diferencial", "álgebra lineal numérica",
-        "métodos de Monte Carlo", "análisis de Fourier", "teoría de la información",
-        "sistemas dinámicos", "geometría algebraica", "teoría de categorías", "homología persistente",
-        "aprendizaje profundo matemático"
-      ],
-      vocabulary: ["function", "derivative", "integral", "matrix", "vector", "probability", "limit", "series", "convergence", "eigenvalue"],
-      sources: ["Annals of Mathematics", "Inventiones Mathematicae", "Journal of the AMS", "SIAM Review"]
-    },
-    neuroscience: {
-      themes: [
-        "plasticidad sináptica", "neurogénesis adulta", "interfaz cerebro-máquina", "optogenética",
-        "conectoma", "ondas cerebrales", "memoria de trabajo", "toma de decisiones neural",
-        "procesamiento sensorial", "trastornos neurodegenerativos", "neuroinflamación",
-        "células gliales", "barrera hematoencefálica", "neurotrasmisores", "ritmos circadianos neurales"
-      ],
-      vocabulary: ["neuron", "synapse", "neurotransmitter", "action potential", "cortex", "hippocampus", "dopamine", "plasticity", "axon", "dendrite"],
-      sources: ["Neuron", "Nature Neuroscience", "Science", "Journal of Neuroscience"]
-    }
+  // Las ramas viven en el catálogo. El vocabulario es un pozo común: la
+  // metodología cambia, las palabras y la teoría no.
+  const EXTRA_THEMES = {
+    math: ["teoría de grafos", "optimización convexa", "sistemas dinámicos", "análisis de Fourier"],
+    physics: ["entrelaçamiento cuántico", "superconductividad", "oscilación de neutrinos", "aislantes topológicos"],
+    biology: ["fotosíntesis C4", "micorrizas", "dispersión de semillas", "biología marina"],
+    chemistry: ["catálisis enzimática", "química de clic", "marcos metal-orgánicos", "química verde"],
+    medicine: ["ensayos clínicos", "farmaco-vigilancia", "epidemiología", "salud pública"],
+    astronomy: ["formación estelar", "exoplanetas", "agujeros negros", "radiación de fondo"],
+    statistics: ["inferencia bayesiana", "diseño experimental", "series temporales", "regresión"],
+    engineering: ["diseño de puentes", "redes eléctricas", "sistemas embebidos", "tratamiento de agua"],
+    biotechnology: ["edición del genoma", "biología sintética", "bioinformática", "bioprocesos"],
+    linguistics: ["adquisición del lenguaje", "semántica formal", "lenguaje y cerebro", "corpus lingüístico"],
+    sociology: ["redes sociales", "estratificación", "sociología urbana", "investigación con encuestas"],
+    microbiology: ["microbioma humano", "resistencia antimicrobiana", "virología", "cultivos microbianos"],
+    molecular_biology: ["regulación génica", "epigenética", "CRISPR", "estructura de proteínas"],
   };
+  const COMMON_VOCAB = (() => {
+    const core = ["evidence", "observe", "compare", "explain", "infer", "measure", "model", "data", "claim", "result", "method", "conclusion", "limit"];
+    const extra = window.LumaVocabularyExtra || {};
+    const pooled = Object.values(extra)
+      .flat()
+      .map((entry) => entry && entry[0])
+      .filter((word) => typeof word === "string" && word.length > 2);
+    return [...new Set([...core, ...pooled])];
+  })();
+  const TOPIC_TEMPLATES = Object.fromEntries(
+    catalog.SCIENCES.map((science) => [
+      science.id,
+      {
+        themes: [...science.branches.map((branch) => branch.label), ...(EXTRA_THEMES[science.id] || [])],
+        vocabulary: COMMON_VOCAB,
+        sources: science.sources,
+      },
+    ]),
+  );
+
 
   // Level-appropriate language patterns
   const LEVEL_PATTERNS = {
@@ -147,11 +100,12 @@
     
     // Generate passage based on level
     const passage = generatePassage(theme, domain, level, patterns);
-    const question = generateQuestion(theme, level);
-    const words = selectVocabulary(template.vocabulary, level, 5);
+    const question = generateQuestion(theme, level, domain);
+    const words = selectVocabulary(COMMON_VOCAB, level, 7);
     
     return {
       id: `gen-${domain}-${theme.replace(/\s+/g, "-")}-${level}`,
+      domain,
       title: capitalizeFirst(theme),
       theme: domainLabel(domain),
       image: domainImage(domain),
@@ -171,161 +125,39 @@
   }
 
   function generatePassage(theme, domain, level, patterns) {
-    const starters = patterns.sentenceStarters;
+    const science = catalog.get(domain);
+    const method = science.method;
     const connectors = patterns.connectors;
     const maxS = patterns.maxSentences;
     const numSentences = Math.min(maxS, 2 + Math.floor(Math.random() * (maxS - 1)));
-    
-    // Domain-specific content templates
-    const contentTemplates = {
-      marine_biology: {
-        en: [
-          `The ocean contains many ${theme}.`,
-          `Scientists study ${theme} to understand marine life.`,
-          `${capitalizeFirst(theme)} plays an important role in the ecosystem.`,
-          `Some animals use ${theme} for survival.`,
-          `Research on ${theme} reveals new discoveries.`
-        ],
-        es: [
-          `El océano contiene muchos ${theme}.`,
-          `Los científicos estudian ${theme} para entender la vida marina.`,
-          `${capitalizeFirst(theme)} juega un papel importante en el ecosistema.`,
-          `Algunos animales usan ${theme} para sobrevivir.`,
-          `La investigación sobre ${theme} revela nuevos descubrimientos.`
-        ]
-      },
-      astronomy: {
-        en: [
-          `Astronomers observe ${theme} using telescopes.`,
-          `${capitalizeFirst(theme)} helps us understand the universe.`,
-          `New data about ${theme} changes our models.`,
-          `The study of ${theme} requires precise instruments.`,
-          `${capitalizeFirst(theme)} reveals cosmic history.`
-        ],
-        es: [
-          `Los astrónomos observan ${theme} usando telescopios.`,
-          `${capitalizeFirst(theme)} nos ayuda a entender el universo.`,
-          `Nuevos datos sobre ${theme} cambian nuestros modelos.`,
-          `El estudio de ${theme} requiere instrumentos precisos.`,
-          `${capitalizeFirst(theme)} revela la historia cósmica.`
-        ]
-      },
-      botany: {
-        en: [
-          `Plants use ${theme} to grow and survive.`,
-          `The process of ${theme} is essential for life.`,
-          `Scientists investigate how ${theme} works in different species.`,
-          `${capitalizeFirst(theme)} connects plants to their environment.`,
-          `Understanding ${theme} improves agriculture.`
-        ],
-        es: [
-          `Las plantas usan ${theme} para crecer y sobrevivir.`,
-          `El proceso de ${theme} es esencial para la vida.`,
-          `Los científicos investigan cómo funciona ${theme} en distintas especies.`,
-          `${capitalizeFirst(theme)} conecta las plantas con su entorno.`,
-          `Entender ${theme} mejora la agricultura.`
-        ]
-      },
-      physics: {
-        en: [
-          `Physicists study ${theme} to understand fundamental forces.`,
-          `${capitalizeFirst(theme)} demonstrates quantum effects.`,
-          `Experiments on ${theme} test theoretical predictions.`,
-          `The mathematics of ${theme} describes nature precisely.`,
-          `Applications of ${theme} include new technologies.`
-        ],
-        es: [
-          `Los físicos estudian ${theme} para entender las fuerzas fundamentales.`,
-          `${capitalizeFirst(theme)} demuestra efectos cuánticos.`,
-          `Los experimentos sobre ${theme} ponen a prueba predicciones teóricas.`,
-          `Las matemáticas de ${theme} describen la naturaleza con precisión.`,
-          `Las aplicaciones de ${theme} incluyen nuevas tecnologías.`
-        ]
-      },
-      chemistry: {
-        en: [
-          `Chemists explore ${theme} to create new materials.`,
-          `${capitalizeFirst(theme)} involves molecular interactions.`,
-          `The mechanism of ${theme} reveals reaction pathways.`,
-          `Catalysis in ${theme} improves efficiency.`,
-          `Green chemistry uses ${theme} for sustainability.`
-        ],
-        es: [
-          `Los químicos exploran ${theme} para crear nuevos materiales.`,
-          `${capitalizeFirst(theme)} involucra interacciones moleculares.`,
-          `El mecanismo de ${theme} revela vías de reacción.`,
-          `La catálisis en ${theme} mejora la eficiencia.`,
-          `La química verde usa ${theme} para la sostenibilidad.`
-        ]
-      },
-      earth_science: {
-        en: [
-          `Geologists examine ${theme} to read Earth's history.`,
-          `${capitalizeFirst(theme)} shapes the planet's surface.`,
-          `Data from ${theme} improves climate models.`,
-          `The study of ${theme} connects past and present.`,
-          `Understanding ${theme} helps predict natural hazards.`
-        ],
-        es: [
-          `Los geólogos examinan ${theme} para leer la historia de la Tierra.`,
-          `${capitalizeFirst(theme)} moldea la superficie del planeta.`,
-          `Los datos de ${theme} mejoran los modelos climáticos.`,
-          `El estudio de ${theme} conecta pasado y presente.`,
-          `Entender ${theme} ayuda a predecir peligros naturales.`
-        ]
-      },
-      mathematics: {
-        en: [
-          `Mathematicians use ${theme} to model complex systems.`,
-          `${capitalizeFirst(theme)} provides tools for analysis.`,
-          `The structure of ${theme} reveals deep patterns.`,
-          `Applications of ${theme} span many sciences.`,
-          `Recent advances in ${theme} solve old problems.`
-        ],
-        es: [
-          `Los matemáticos usan ${theme} para modelar sistemas complejos.`,
-          `${capitalizeFirst(theme)} proporciona herramientas de análisis.`,
-          `La estructura de ${theme} revela patrones profundos.`,
-          `Las aplicaciones de ${theme} abarcan muchas ciencias.`,
-          `Avances recientes en ${theme} resuelven problemas antiguos.`
-        ]
-      },
-      neuroscience: {
-        en: [
-          `Neuroscientists investigate ${theme} to understand the brain.`,
-          `${capitalizeFirst(theme)} underlies behavior and cognition.`,
-          `Techniques like optogenetics reveal ${theme}.`,
-          `Disorders related to ${theme} affect millions.`,
-          `The mechanism of ${theme} involves neural circuits.`
-        ],
-        es: [
-          `Los neurocientíficos investigan ${theme} para entender el cerebro.`,
-          `${capitalizeFirst(theme)} subyace al comportamiento y la cognición.`,
-          `Técnicas como la optogenética revelan ${theme}.`,
-          `Trastornos relacionados con ${theme} afectan a millones.`,
-          `El mecanismo de ${theme} involucra circuitos neuronales.`
-        ]
-      }
-    };
-
-    const templates = contentTemplates[domain] || contentTemplates.marine_biology;
-    const selected = templates.en.slice(0, numSentences);
-    const selectedEs = templates.es.slice(0, numSentences);
-    
-    // Add connectors for higher levels
-    let en = selected.join(" ");
-    let es = selectedEs.join(" ");
-    
+    const en = [
+      `Researchers in ${science.en} study ${theme}.`,
+      `They ${method.verbs[0][0]} carefully and look for ${method.evidenceEn}.`,
+      `${capitalizeFirst(theme)} connects a question with evidence.`,
+      method.questionEn,
+      "The conclusion remains open to revision when new evidence appears.",
+    ];
+    const es = [
+      `Los investigadores de ${science.label.toLowerCase()} estudian ${theme}.`,
+      `Ellos ${method.verbs[0][1]} con cuidado y buscan ${method.evidence}.`,
+      `${capitalizeFirst(theme)} conecta una pregunta con la evidencia.`,
+      method.question,
+      "La conclusión sigue abierta a revisión cuando aparece nueva evidencia.",
+    ];
+    const selected = en.slice(0, numSentences);
+    const selectedEs = es.slice(0, numSentences);
+    let english = selected.join(" ");
+    let spanish = selectedEs.join(" ");
     if (level !== "A1" && numSentences > 2) {
       const conn = connectors[Math.floor(Math.random() * connectors.length)];
-      en = en.replace(/\. (\w)/, `. ${conn} $1`);
-      es = es.replace(/\. (\w)/, `. ${conn} $1`);
+      english = english.replace(/\. (\w)/, `. ${conn} $1`);
+      spanish = spanish.replace(/\. (\w)/, `. ${conn} $1`);
     }
-
-    return { en, es };
+    return { en: english, es: spanish };
   }
 
-  function generateQuestion(theme, level) {
+
+  function generateQuestion(theme, level, domain) {
     const questions = {
       A1: {
         templates: [
@@ -365,7 +197,24 @@
     };
 
     const levelQuestions = questions[level] || questions.A1;
-    const template = levelQuestions.templates[Math.floor(Math.random() * levelQuestions.templates.length)];
+    const science = catalog.get(domain);
+    const templates =
+      level === "C1"
+        ? [
+            ...levelQuestions.templates,
+            {
+              q: science.method.questionEn,
+              opts: [
+                "The claim that fits the evidence and its limits.",
+                "The first explanation proposed.",
+                "The most popular answer.",
+              ],
+              a: 0,
+              note: `Warranted indica lo que la evidencia justifica. En ${science.label.toLowerCase()} se revisa ${science.method.evidence}.`,
+            },
+          ]
+        : levelQuestions.templates;
+    const template = templates[Math.floor(Math.random() * templates.length)];
     
     return {
       en: template.q.replace("${theme}", theme),
@@ -387,32 +236,13 @@
   }
 
   function domainLabel(domain) {
-    const labels = {
-      marine_biology: "Biología marina",
-      astronomy: "Astronomía",
-      botany: "Botánica",
-      physics: "Física",
-      chemistry: "Química",
-      earth_science: "Ciencias de la Tierra",
-      mathematics: "Matemáticas",
-      neuroscience: "Neurociencia"
-    };
-    return labels[domain] || domain;
+    return catalog.labelFor(domain);
   }
 
   function domainImage(domain) {
-    const images = {
-      marine_biology: "ocean",
-      astronomy: "nebula",
-      botany: "plant",
-      physics: "atom",
-      chemistry: "flask-conical",
-      earth_science: "earth",
-      mathematics: "shapes",
-      neuroscience: "brain"
-    };
-    return images[domain] || "science";
+    return catalog.get(domain).image || "science";
   }
+
 
   // Batch generate topics for a domain
   async function generateTopicBatch(domain, levels = ["A1", "A2", "B1", "B2", "C1"], count = 3) {
@@ -441,7 +271,7 @@
         
         // Add scientific context
         for (const term of keyTerms.slice(0, 3)) {
-          const context = await api.getScientificContext(term, domainLabel(topic.theme).toLowerCase());
+          const context = await api.getScientificContext(term, domainLabel(topic.domain).toLowerCase());
           if (context.length) {
             topic.scientificContext = topic.scientificContext || [];
             topic.scientificContext.push(...context);
@@ -467,20 +297,21 @@
 
   // Render topic explorer UI
   function renderTopicExplorer(root, apiRef) {
-    const domains = Object.keys(TOPIC_TEMPLATES);
+    const preferred = catalog.normalize(apiRef && apiRef.get ? apiRef.get("interest", "all") : "all");
+    const domains = Object.keys(TOPIC_TEMPLATES).sort((a, b) => (a === preferred ? -1 : b === preferred ? 1 : 0));
     const saved = getGeneratedTopics();
     
     root.innerHTML = `<section class="topic-explorer">
       <header class="te-header">
         <h1>Explorador de Temas</h1>
-        <p>Genera nuevas sesiones científicas a demanda. Elige un dominio, nivel y tema para crear una lectura adaptada.</p>
+        <p>Genera nuevas sesiones por disciplina y rama. La metodología se adapta; el vocabulario y la teoría son comunes. Elige un dominio, nivel y tema para crear una lectura adaptada.</p>
       </header>
       
       <div class="te-controls">
         <div class="te-form">
           <label>Dominio
             <select id="te-domain">
-              ${domains.map(d => `<option value="${d}">${domainLabel(d)}</option>`).join("")}
+              ${domains.map(d => `<option value="${d}" ${d === preferred ? "selected" : ""}>${domainLabel(d)}</option>`).join("")}
             </select>
           </label>
           <label>Nivel

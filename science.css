@@ -257,6 +257,24 @@
   padding: 0;
   text-decoration: underline;
 }
+.sci-method {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 1rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #ded7f4;
+  border-radius: 10px;
+  background: #fbfaff;
+}
+.sci-method b {
+  color: #51409f;
+  font-size: 0.78rem;
+}
+.sci-method span {
+  color: var(--muted, #626476);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
 .sci-log {
   display: flex;
   flex-direction: column;

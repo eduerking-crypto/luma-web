@@ -1102,6 +1102,19 @@
     if (!Array.isArray(history)) history = [];
     let ai = false;
     let sending = false;
+    // La metodología de la ciencia elegida también acompaña al tutor. El
+    // vocabulario y la teoría siguen siendo comunes para todos los alumnos.
+    const scienceCatalog = window.LumaScienceCatalog;
+    const tutorScience = scienceCatalog
+      ? scienceCatalog.get(context?.science || api.get("interest", "all"))
+      : null;
+    const tutorBranch =
+      context?.branch || (!context ? api.get("scienceBranch", "") : "");
+    const tutorMethod = {
+      name: context?.methodName || tutorScience?.method.name || "",
+      question: context?.methodQuestion || tutorScience?.method.question || "",
+      evidence: context?.methodEvidence || tutorScience?.method.evidence || "",
+    };
     root.innerHTML =
       '<section class="sci-pane"><header class="sci-head"><p class="sci-kicker">ASISTENTE DE ESTUDIO</p><h1>Tutor Lumi</h1><p>Pregunta sobre una palabra, una idea científica o una frase en inglés.</p></header><article class="sci-chat"><div class="sci-chat-top"><div class="sci-partner"><img src="assets/lumi.webp" alt=""><h2>Conversación</h2></div><span class="sci-mode" role="status">Guía local · ' +
       html(level) +
@@ -1130,6 +1143,16 @@
               "</a>"
             : "") +
           '<button type="button" data-leave>Quitar material</button></div></div>'
+        : "") +
+      (tutorScience
+        ? '<div class="sci-method"><b>' +
+          html(tutorScience.label) +
+          (tutorBranch ? " · " + html(tutorBranch) : "") +
+          "</b><span>" +
+          html(tutorMethod.name) +
+          " · " +
+          html(tutorMethod.question) +
+          "</span></div>"
         : "") +
       '<div class="sci-log" role="log" aria-label="Mensajes del tutor" aria-live="polite"></div><div class="sci-prompts"></div><form class="sci-form"><label for="sci-question">Tu pregunta</label><textarea rows="2" maxlength="1200" id="sci-question" required placeholder="¿Qué significa glow?"></textarea><button type="submit">Enviar</button></form><p class="sci-state" data-hint aria-live="polite"></p></article></section>';
     const chat = root.querySelector(".sci-chat"),
@@ -1253,6 +1276,7 @@
                       sourceName: context.sourceName,
                     }
                   : "",
+                method: tutorMethod,
                 history: history
                   .slice(-8)
                   .map((m) => ({ role: m.role, content: m.content })),

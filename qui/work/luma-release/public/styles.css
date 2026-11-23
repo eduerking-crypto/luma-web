@@ -551,8 +551,43 @@ h3 {
 }
 .topic-options {
   display: grid;
+  gap: 12px;
+}
+.topic-science-grid {
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+}
+.topic-branch-panel {
+  border-top: 1px solid var(--line);
+  padding-top: 11px;
+}
+.topic-branch-title {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.topic-branch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.topic-branch-grid button {
+  min-height: 34px !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 620 !important;
+}
+.topic-method {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
 }
 .topic-options button {
   background: white;
