@@ -13,6 +13,17 @@
   let score = 0;
   let streak = 0;
   let highScores = JSON.parse(localStorage.getItem("luma.gameScores") || "{}");
+  let gameTimer = null;
+
+  function schedule(fn, ms) {
+    clearTimeout(gameTimer);
+    gameTimer = setTimeout(fn, ms);
+  }
+
+  function finishGame(api, key, score, label) {
+    api.complete("game-" + key);
+    api.toast(label + ": " + score + " puntos. ¡Buen trabajo!");
+  }
 
   function escapeHtml(text) {
     return String(text ?? "").replace(/[&<>"']/g, c => ({
@@ -35,6 +46,7 @@
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
   }
+  window.speakWord = speakWord;
 
   // ============ GAME 1: WORD MATCH ============
   function createWordMatchGame(root, api) {
@@ -85,7 +97,7 @@
           <div class="game-content">
             <div class="target-word" lang="en">${escapeHtml(target.word)}</div>
             <p class="target-hint">Significado: ${escapeHtml(target.meaning)}</p>
-            <button class="game-audio-btn" onclick="speakWord('${target.word}')">${icon("volume-2", 20)} Escuchar</button>
+            <button class="game-audio-btn" type="button" data-speak="${escapeHtml(target.word)}">${icon("volume-2", 20)} Escuchar</button>
             <div class="options-grid">
               ${options.map((opt, i) => `
                 <button class="option-btn" data-index="${i}" data-word="${escapeHtml(opt.word)}">
@@ -99,6 +111,9 @@
 
       root.querySelectorAll(".option-btn").forEach(btn => {
         btn.onclick = () => checkAnswer(btn);
+      });
+      root.querySelectorAll("[data-speak]").forEach(btn => {
+        btn.onclick = () => speakWord(btn.dataset.speak);
       });
     }
 
@@ -127,12 +142,11 @@
         feedback.className = "game-feedback incorrect";
       }
 
-      setTimeout(() => {
-        newRound();
-      }, 1500);
+      schedule(() => newRound(), 1500);
     }
 
     function endGame() {
+      finishGame(api, "wordMatch", roundScore, "Word Match");
       const previousBest = highScores.wordMatch || 0;
       if (roundScore > previousBest) {
         highScores.wordMatch = roundScore;
@@ -153,8 +167,8 @@
             </div>
           </div>
         </div>`;
-      window.restartGame = () => { totalRounds = 0; roundScore = 0; roundStreak = 0; newRound(); };
-      window.goBack = () => { currentGame = null; renderGameMenu(root, api); };
+      window.restartGame = () => { clearTimeout(gameTimer); totalRounds = 0; roundScore = 0; roundStreak = 0; newRound(); };
+      window.goBack = () => { clearTimeout(gameTimer); currentGame = null; renderGameMenu(root, api); };
     }
 
     newRound();
@@ -162,7 +176,7 @@
 
   // ============ GAME 2: VERB CONJUGATION CHALLENGE ============
   function createVerbChallengeGame(root, api) {
-    const verbs = verbData.filter(v => v.category === "science" || v.category === "general").slice(0, 100);
+    const verbs = verbData.filter(v => v.category === "science" || v.category === "general").sort(() => Math.random() - 0.5).slice(0, 140);
     let currentRound = null;
     let roundScore = 0;
     let roundStreak = 0;
@@ -264,10 +278,11 @@
         feedback.className = "game-feedback incorrect";
       }
 
-      setTimeout(newRound, 1500);
+      schedule(newRound, 1500);
     }
 
     function endGame() {
+      finishGame(api, "verbChallenge", roundScore, "Verb Challenge");
       const previousBest = highScores.verbChallenge || 0;
       if (roundScore > previousBest) {
         highScores.verbChallenge = roundScore;
@@ -285,8 +300,8 @@
             </div>
           </div>
         </div>`;
-      window.restartGame = () => { totalRounds = 0; roundScore = 0; roundStreak = 0; newRound(); };
-      window.goBack = () => { currentGame = null; renderGameMenu(root, api); };
+      window.restartGame = () => { clearTimeout(gameTimer); totalRounds = 0; roundScore = 0; roundStreak = 0; newRound(); };
+      window.goBack = () => { clearTimeout(gameTimer); currentGame = null; renderGameMenu(root, api); };
     }
 
     newRound();
@@ -385,10 +400,11 @@
         feedback.className = "game-feedback incorrect";
       }
 
-      setTimeout(() => { currentQ++; renderQuestion(); }, 1500);
+      schedule(() => { currentQ++; renderQuestion(); }, 1500);
     }
 
     function endGame() {
+      finishGame(api, "scienceQuiz", score, "Science Quiz");
       const previousBest = highScores.scienceQuiz || 0;
       if (score > previousBest) {
         highScores.scienceQuiz = score;
@@ -407,8 +423,8 @@
             </div>
           </div>
         </div>`;
-      window.restartGame = () => { currentQ = 0; score = 0; streak = 0; renderQuestion(); };
-      window.goBack = () => { currentGame = null; renderGameMenu(root, api); };
+      window.restartGame = () => { clearTimeout(gameTimer); currentQ = 0; score = 0; streak = 0; renderQuestion(); };
+      window.goBack = () => { clearTimeout(gameTimer); currentGame = null; renderGameMenu(root, api); };
     }
 
     renderQuestion();
@@ -432,8 +448,9 @@
       round++;
       currentWord = words[Math.floor(Math.random() * words.length)];
       
-      // Play audio immediately
-      setTimeout(() => speakWord(currentWord), 300);
+      // Play audio immediately (only if this round is still active)
+      const spoken = currentWord;
+      setTimeout(() => { if (currentWord === spoken) speakWord(spoken); }, 300);
       
       root.innerHTML = `
         <div class="game-container spelling-bee">
@@ -447,7 +464,7 @@
           </header>
           <div class="game-content">
             <p class="spelling-instruction">Escribe la palabra que escuchas:</p>
-            <button class="game-audio-btn large" onclick="speakWord('${currentWord}')">
+            <button class="game-audio-btn large" type="button" data-speak="${escapeHtml(currentWord)}">
               ${icon("volume-2", 28)} Escuchar de nuevo
             </button>
             <input type="text" class="spelling-input" id="spelling-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Escribe aquí...">
@@ -461,6 +478,9 @@
       input.focus();
       input.addEventListener("keydown", e => { if (e.key === "Enter") checkSpelling(); });
       root.querySelector("#spelling-submit").onclick = checkSpelling;
+      root.querySelectorAll("[data-speak]").forEach(btn => {
+        btn.onclick = () => speakWord(btn.dataset.speak);
+      });
 
       function checkSpelling() {
         const userInput = input.value.trim().toLowerCase();
@@ -478,11 +498,12 @@
           feedback.className = "game-feedback incorrect";
         }
         
-        setTimeout(() => { round++; newRound(); }, 2000);
+        schedule(newRound, 2000);
       }
     }
 
     function endGame() {
+      finishGame(api, "spellingBee", score, "Spelling Bee");
       const previousBest = highScores.spellingBee || 0;
       if (score > previousBest) {
         highScores.spellingBee = score;
@@ -500,8 +521,8 @@
             </div>
           </div>
         </div>`;
-      window.restartGame = () => { round = 0; score = 0; streak = 0; newRound(); };
-      window.goBack = () => { currentGame = null; renderGameMenu(root, api); };
+      window.restartGame = () => { clearTimeout(gameTimer); round = 0; score = 0; streak = 0; newRound(); };
+      window.goBack = () => { clearTimeout(gameTimer); currentGame = null; renderGameMenu(root, api); };
     }
 
     newRound();
@@ -564,6 +585,13 @@
         const card = btn.closest(".game-card");
         const gameId = card.dataset.game;
         currentGame = gameId;
+        clearTimeout(gameTimer);
+        window.goBack = () => {
+          clearTimeout(gameTimer);
+          currentGame = null;
+          renderGameMenu(root, api);
+        };
+        window.restartGame = null;
         root.innerHTML = "";
         switch (gameId) {
           case "wordMatch": createWordMatchGame(root, api); break;
@@ -576,8 +604,10 @@
   }
 
   function dispose() {
+    clearTimeout(gameTimer);
     currentGame = null;
     gameState = {};
+    window.speechSynthesis?.cancel();
   }
 
   window.LumaGames = Object.freeze({

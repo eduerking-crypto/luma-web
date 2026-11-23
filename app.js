@@ -48,6 +48,7 @@
   routes.topics = ["Explorador de temas", "shuffle", "Genera nuevas sesiones científicas a demanda"];
   routes.agents = ["Agentes de desarrollo", "bot", "Monitoreo y mejora continua automática"];
   routes.longreads = ["Lecturas de fondo", "book-open-text", "Artículos bilingües completos por capítulos"];
+  routes.research = ["Artículos reales", "newspaper", "Ciencia real según tu interés, con resumen y salto a la revista"];
   for (const story of window.LumaFeatures) {
     routes["fondo-" + story.id] = [story.title, "book-open-text", story.description];
   }
@@ -251,7 +252,7 @@
     const days = streak();
     // El rail lateral original se conserva tal cual en escritorio.
     rail.innerHTML = `<button class="brand" data-luma-go="home" aria-label="Luma, ir a inicio"><img src="assets/luma.svg" alt=""><span><b>Luma</b><small>Inglés con ciencia</small></span></button><nav>${[
-      ["MI ESPACIO", ["home", "daily", "path", "library", "news"]],
+      ["MI ESPACIO", ["home", "daily", "path", "library", "research", "news"]],
       ["APRENDIZAJE", ["practice", "vocabulary", "topics", "verbs", "theory", "games", "exams", "tutor"]],
       ["DESARROLLO", ["agents"]],
       ["ACTIVIDAD", ["streak"]],
@@ -271,6 +272,7 @@
       ["daily", "compass", "Sesi\u00f3n de hoy"],
       ["practice", "shapes", "Pr\u00e1ctica"],
       ["vocabulary", "layers-3", "Vocabulario"],
+      ["research", "newspaper", "Artículos reales"],
       ["library", "library-big", "Biblioteca"],
       ["settings", "user-round", "Perfil"],
     ];
@@ -365,7 +367,8 @@
  <div class="hero-grid"><article class="feature" id="feature">${feature()}</article><aside class="tutor-card"><span class="tutor-tag">${icon("sparkles", 14)} TUTOR DE CIENCIA</span><div class="lumi-wrap"><img src="assets/lumi-cutout.webp" alt="Lumi, un ajolote lavanda con gafas y bata"><span class="spark-decoration">${icon("sparkles", 16)}</span><span class="spark-decoration second">${icon("star", 12)}</span></div><h2>Aprende con Lumi</h2><p>Tu guía de ciencia e inglés.</p><button class="outline-button" data-luma-go="tutor" aria-label="Hablar con Lumi">${icon("message-circle", 15)} Hablar con Lumi</button></aside></div>
  <section class="section"><div class="section-title"><h2>Mesa de práctica</h2><button class="text-button" data-luma-go="practice">Ver actividades ${icon("chevron-right", 14)}</button></div><div class="practice-grid">${skills.map(studyCard).join("")}</div></section>
  ${featuredReads()}
- <section class="section"><div class="section-title"><h2>Mi plan de estudio</h2><button class="text-button" data-luma-go="path">Ver ruta de estudio ${icon("chevron-right", 14)}</button></div><div class="mini-grid"><div class="panel"><div class="panel-header"><h3>Continúa practicando</h3><span class="eyeline">NIVEL ${level()}</span></div>${row("vocabulary", "Repasa las palabras que ya has visto.")}${row("exams", "Aplica lo aprendido en un caso nuevo.")}${row("present", "Prepara tu próxima exposición en inglés.")}</div><div class="panel"><div class="panel-header"><h3>Objetivo diario</h3><span class="eyeline">${completed} / ${goal}</span></div><div class="progress-track" role="progressbar" aria-label="Actividades de hoy" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${Math.min(goal, completed)}"><i style="width:${Math.min(100, (completed / goal) * 100)}%"></i></div>${week()}<p class="status-text">${completed >= goal ? "Has alcanzado tu objetivo de hoy." : completed ? "Cada actividad cuenta para tu racha." : "Completa una actividad para encender tu racha."}</p><button class="text-button" data-luma-go="streak">Mi progreso ${icon("chevron-right", 14)}</button></div></div></section>`;
+ <section class="section"><div class="section-title"><h2>Ciencia real</h2><button class="text-button" data-luma-go="research">Abrir artículos ${icon("chevron-right", 14)}</button></div><div class="panel">${row("research", "Artículos de revistas científicas sobre la ciencia que elegiste.")}</div></section>
+  <section class="section"><div class="section-title"><h2>Mi plan de estudio</h2><button class="text-button" data-luma-go="path">Ver ruta de estudio ${icon("chevron-right", 14)}</button></div><div class="mini-grid"><div class="panel"><div class="panel-header"><h3>Continúa practicando</h3><span class="eyeline">NIVEL ${level()}</span></div>${row("vocabulary", "Repasa las palabras que ya has visto.")}${row("exams", "Aplica lo aprendido en un caso nuevo.")}${row("present", "Prepara tu próxima exposición en inglés.")}</div><div class="panel"><div class="panel-header"><h3>Objetivo diario</h3><span class="eyeline">${completed} / ${goal}</span></div><div class="progress-track" role="progressbar" aria-label="Actividades de hoy" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${Math.min(goal, completed)}"><i style="width:${Math.min(100, (completed / goal) * 100)}%"></i></div>${week()}<p class="status-text">${completed >= goal ? "Has alcanzado tu objetivo de hoy." : completed ? "Cada actividad cuenta para tu racha." : "Completa una actividad para encender tu racha."}</p><button class="text-button" data-luma-go="streak">Mi progreso ${icon("chevron-right", 14)}</button></div></div></section>`;
   }
   function pathPage() {
     root.innerHTML =
@@ -518,6 +521,8 @@
     window.LumaLearn?.dispose?.();
     window.LumaScience?.dispose?.();
     window.LumaLibrary?.dispose?.();
+    window.LumaResearch?.dispose?.();
+    window.LumaGames?.dispose?.();
     window.LumaOnboarding?.dispose?.();
     if (prior && prior !== id) window.speechSynthesis?.cancel();
     current = id;
@@ -536,6 +541,8 @@
       window.LumaScience.render(id, root, api);
     else if (["library", "longreads", "astro", "plants"].includes(id))
       window.LumaLibrary.render(id, root, api);
+    else if (id === "research")
+      window.LumaResearch.render(root, api);
     else if (id === "vocabulary")
       window.LumaVocabExpanded.render(root, api);
     else if (id === "topics")
@@ -576,7 +583,7 @@
     );
     const results = q.trim()
       ? ids
-      : ["daily", "reading", "library", "vocabulary", "tutor", "news"];
+      : ["daily", "reading", "library", "research", "vocabulary", "tutor", "news"];
     document.getElementById("matches").innerHTML = results.length
       ? results.map((id) => row(id)).join("")
       : '<p class="status-text">Ninguna coincidencia. Prueba con «inglés», «práctica» o «ciencia».</p>';

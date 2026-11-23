@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const lexicon = window.LumaVerbData;
+  const lexicon = window.LumaVerbDataExtended || window.LumaVerbData;
   const byBase = new Map(lexicon.map((verb) => [verb.base, verb]));
   const periods = {
     present: "Presente",

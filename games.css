@@ -1,0 +1,194 @@
+/* Juegos de Luma · móvil primero, mismos tokens de diseño */
+
+.games-panel { display: grid; gap: 16px; }
+.games-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 5px;
+  font-size: clamp(1.5rem, 5.5vw, 2rem);
+  letter-spacing: -0.03em;
+}
+.games-header p { margin: 0; color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+.games-grid { display: grid; gap: 12px; }
+.game-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 6px;
+}
+.game-card-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--pale);
+  color: var(--violet);
+  margin-bottom: 2px;
+}
+.game-card h3 { margin: 0; font-size: 1rem; }
+.game-card p { margin: 0; color: var(--muted); font-size: 0.8rem; line-height: 1.45; }
+.game-card-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #8a6a1f;
+  font-size: 0.74rem;
+  font-weight: 650;
+}
+.game-play-btn {
+  justify-self: start;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--violet);
+  color: #fff;
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.game-container {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.game-header {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow);
+}
+.game-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+.game-header h2 .l-icon { color: var(--violet); }
+.game-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+.game-stats span {
+  background: #f6f5fb;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.game-stats b { color: var(--ink); }
+.game-content {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 16px;
+  box-shadow: var(--shadow);
+}
+.target-word {
+  text-align: center;
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.target-hint { text-align: center; color: var(--muted); font-size: 0.84rem; margin: 0 0 12px; }
+.game-audio-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 0 auto 14px;
+  border: 1px solid #d8d0f2;
+  background: var(--pale);
+  color: #51409f;
+  border-radius: 999px;
+  padding: 8px 15px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.game-audio-btn.large { padding: 12px 18px; font-size: 0.95rem; }
+.options-grid { display: grid; gap: 9px; }
+.option-btn {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fbfaff;
+  color: var(--ink);
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-weight: 620;
+  line-height: 1.35;
+}
+.option-btn:disabled { cursor: default; }
+.option-btn.correct { border-color: #76b894; background: #e6f5ec; color: #24613c; }
+.option-btn.incorrect { border-color: #e0a3a3; background: #fdecec; color: #9c3535; }
+.game-feedback { min-height: 22px; margin: 12px 0 0; font-size: 0.84rem; font-weight: 650; text-align: center; }
+.game-feedback.correct { color: #24613c; }
+.game-feedback.incorrect { color: #9c3535; }
+
+.verb-prompt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.pronoun {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 9px;
+  padding: 6px 11px;
+  font-weight: 800;
+}
+.tense-label { color: var(--violet); font-size: 0.8rem; font-weight: 700; }
+.verb-base { color: var(--muted); font-size: 0.8rem; }
+.prompt-text { text-align: center; color: var(--muted); font-size: 0.82rem; margin: 0 0 12px; }
+.quiz-question { font-size: 1.02rem; font-weight: 700; line-height: 1.4; margin: 0 0 14px; }
+.spelling-instruction { text-align: center; color: var(--muted); font-size: 0.86rem; margin: 0 0 12px; }
+.spelling-input {
+  width: 100%;
+  border: 2px solid #d8d0f2;
+  border-radius: 12px;
+  padding: 13px 14px;
+  font: inherit;
+  font-size: 1.05rem;
+  text-align: center;
+  color: var(--ink);
+  outline: none;
+  margin-bottom: 10px;
+}
+.spelling-input:focus { border-color: var(--violet); }
+.spelling-hint { text-align: center; color: var(--muted); font-size: 0.76rem; margin: 0 0 10px; }
+.game-content > .solid-button { display: flex; margin: 0 auto; align-items: center; gap: 6px; }
+
+.game-end {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 24px 18px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.final-score { font-size: 2.2rem; font-weight: 800; color: var(--violet); letter-spacing: -0.04em; }
+.game-end p { color: var(--muted); font-size: 0.84rem; margin: 6px 0; }
+.game-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
+
+@media (min-width: 760px) {
+  .games-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .options-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
