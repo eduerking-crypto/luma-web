@@ -127,7 +127,6 @@
   function renderStep(step, isLast) {
     if (step === "welcome")
       return `<h1 class="ob-title">Aprende ingl\u00e9s<br>con ciencia</h1>
-        <p class="ob-sub">Lee art\u00edculos adaptados a tu nivel, practica vocabulario y verbos, y explica descubrimientos con tus propias palabras. Sin conexi\u00f3n tambi\u00e9n funciona.</p>
         <div class="ob-actions">
           <button type="button" class="solid-button" data-ob-next>${icon("sparkles", 17)} Empezar</button>
           <button type="button" class="outline-button" data-ob-jump>Ya tengo cuenta · entrar</button>
