@@ -1,49 +1,46 @@
-# Luma · APK que se actualiza sola (Cloudflare Pages)
+# Luma · APK que se actualiza solo (GitHub Pages)
 
-Esta guía deja la app publicada en la web (Cloudflare Pages, gratis) y el APK
-apuntando a esa web, de modo que **cada cambio en la web se ve en la app sin
-recompilar el APK**.
+La web se publica gratis en GitHub Pages y el APK apunta a esa URL, de modo que
+**cada cambio en la web se ve en la app sin recompilar ni reinstalar**.
+
+- Web: https://eduerking-crypto.github.io/luma-web/
+- Repositorio: https://github.com/eduerking-crypto/luma-web
+- APK: `qui/work/luma-release/Luma-v1.0-release.apk`
 
 ---
 
-## 1. Publicar la web en Cloudflare Pages (gratis)
+## 1. Publicar la web
 
-### Opción A · Panel web (arrastrar y soltar)
-1. Entra a https://dash.cloudflare.com/ → **Workers & Pages** → **Create** → **Pages** → **Upload assets**.
-2. Nombre del proyecto: `luma` (o el que quieras).
-3. Arrastra la carpeta **`public/`** completa (con `index.html`, `_headers`, etc.).
-4. **Deploy**. Te dará una URL tipo `https://luma.pages.dev`.
+La carpeta `public/` de este directorio es una copia de los archivos de la web
+del repositorio. Para actualizarla después de editar la web:
 
-### Opción B · Wrangler (CLI)
 ```bash
-npm install -g wrangler
-wrangler login
-# Desde la carpeta qui/work/luma-release :
-wrangler pages deploy public --project-name=luma
+# Desde la raíz del repositorio
+$src = "luma-web"
+$dst = "luma-web/qui/work/luma-release/public"
+Get-ChildItem $src -File | Where-Object { $_.Extension -in @('.css','.js','.html','.webmanifest') } |
+  ForEach-Object { Copy-Item $_.FullName $dst -Force }
+Copy-Item "$src/assets" $dst -Recurse -Force
 ```
 
-### Verifica
-Abre tu URL `https://luma.pages.dev` en el navegador. Debe cargar la app.
+Después haz commit y push a `master`. GitHub Pages vuelve a publicar en 1–2 minutos.
 
 ---
 
-## 2. Reconstruir el APK apuntando a esa URL
-
-Con tu URL en mano (ej: `https://luma.pages.dev`):
+## 2. Reconstruir el APK (solo si cambia la URL o algo nativo)
 
 ```bash
 cd qui/work/luma-release
-node actualizar-apk.mjs https://luma.pages.dev
+node actualizar-apk.mjs https://eduerking-crypto.github.io/luma-web/
 ```
 
-Esto:
-- Actualiza `capacitor.config.json` con tu URL.
-- Compila el APK firmado.
-- Lo deja en `qui/work/luma-release/Luma-v1.0-release.apk`.
+Esto actualiza `capacitor.config.json`, sincroniza Capacitor, compila el APK
+firmado y lo deja en `Luma-v1.0-release.apk`.
 
 También puedes usar:
+
 ```bash
-npm run apk -- https://luma.pages.dev
+npm run apk -- https://eduerking-crypto.github.io/luma-web/
 ```
 
 ---
@@ -51,33 +48,18 @@ npm run apk -- https://luma.pages.dev
 ## 3. Instalar y compartir
 
 - Transfiere `Luma-v1.0-release.apk` al móvil e instálalo.
-- La app abre tu web a pantalla completa, con icono propio.
-- **Cuando cambies `public/` y vuelvas a subir a Cloudflare, la app se actualiza sola** la próxima vez que se abra con internet.
+- La app abre la web a pantalla completa, con icono propio.
+- **Normalmente no hay que recompilar**: al publicar cambios en `master`, la app
+  los muestra sola la próxima vez que se abra con internet.
 
 ---
 
-## 4. Ciclo de actualización (lo repetirás siempre)
+## 4. Notas
 
-Cada vez que edites contenido en `public/`:
-
-```bash
-# 1. Subir a Cloudflare (CLI)
-cd qui/work/luma-release
-wrangler pages deploy public --project-name=luma
-
-# 2. (Opcional) reconstruir APK solo si cambias algo nativo o la URL
-#    Normalmente NO hace falta: la web se actualiza sola.
-node actualizar-apk.mjs https://luma.pages.dev
-```
-
----
-
-## Notas
-
-- La app usa el **Service Worker** incluido en la PWA: tras la primera visita,
-  funciona sin conexión y se actualiza cuando hay internet.
-- `cleartext: false` fuerza HTTPS (obligatorio para actualización y micrófono).
-- Si más adelante usas dominio propio (ej `luma.tudominio.com`), solo cambia la
-  URL en el comando del paso 2.
-- Para Google Play se sube el mismo `.apk` firmado (o se genera un `.aab`);
-  la publicación cuesta $25 únicos y es opcional.
+- El APK usa `server.url` de Capacitor; los archivos incluidos siguen presentes
+  como respaldo, pero la fuente principal es la URL pública.
+- La PWA usa Service Worker: tras la primera visita puede funcionar sin conexión.
+  Si ves una versión antigua tras un cambio, cierra y vuelve a abrir la app dos
+  veces para que el caché se renueve.
+- Play Store no es obligatorio si compartes el APK directamente; publicar allí
+  cuesta $25 únicos y requiere un `.aab`.
