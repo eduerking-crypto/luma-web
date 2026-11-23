@@ -234,6 +234,12 @@
   box-shadow: 0 2px 8px rgba(52, 48, 79, 0.05);
 }
 
+.vocab-picture .luma-vocab-icon {
+  width: 62%;
+  height: 62%;
+  color: var(--violet, #6c5ce7);
+}
+
 .vocab-phonetic {
   display: block;
   margin-top: 2px;

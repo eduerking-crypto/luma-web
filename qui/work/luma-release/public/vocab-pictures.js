@@ -563,6 +563,11 @@
       .toLowerCase()
       .replace(/\s+/g, " ");
 
+  const escapeHtml = (value) =>
+    String(value).replace(/[&<>"']/g, (char) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]),
+    );
+
   function picture(word, topic) {
     const key = normalize(word);
     const direct = PICTURES[key] || PICTURES[String(word).trim()];
@@ -572,11 +577,17 @@
     const found = direct || singular || {};
     const emoji = found.emoji || TOPIC_FALLBACK[topic] || "🔤";
     const phonetic = found.phonetic || "";
+    const icon = window.LumaVocabIcons?.iconFor(word, topic) || { name: "circle-dot" };
+    const iconMarkup =
+      window.LumaVocabIcons?.svg(icon.name, 22, icon.color) || escapeHtml(emoji);
     return {
       emoji,
+      icon: icon.name,
+      iconColor: icon.color || "",
+      iconMarkup,
       phonetic,
       html:
-        `<span class="ll-word-picture" aria-hidden="true">${emoji}</span>` +
+        `<span class="ll-word-picture" aria-hidden="true">${iconMarkup}</span>` +
         (phonetic
           ? `<span class="ll-word-phonetic" lang="en">${phonetic}</span>`
           : ""),

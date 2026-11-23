@@ -1644,10 +1644,13 @@
               const info = wordInfo.get(en);
               const pic = window.LumaVocabPictures?.picture(en, info.topic) || {
                 emoji: "🔤",
+                icon: "circle-dot",
+                iconColor: "",
+                iconMarkup: "🔤",
                 phonetic: "",
               };
               return card(
-                `<p class="ll-word-class">${info.topic} · ${info.kind}</p><div class="ll-row ll-between"><div class="ll-word-head"><span class="ll-word-picture" aria-hidden="true">${pic.emoji}</span><div class="ll-word-label"><h2 lang="en">${en}</h2>${pic.phonetic ? `<span class="ll-word-phonetic" lang="en">${pic.phonetic}</span>` : ""}</div></div><button class="ll-save" type="button" data-save="${i}" aria-pressed="${saved.includes(en)}" aria-label="${saved.includes(en) ? "Quitar de guardadas" : "Guardar"} ${en}">${saved.includes(en) ? "★" : "☆"}</button></div><p class="ll-trans">${es}</p><p lang="en">${example}</p>${action("sound-" + i, "Escuchar ejemplo")}${feedback()}`,
+                `<p class="ll-word-class">${info.topic} · ${info.kind}</p><div class="ll-row ll-between"><div class="ll-word-head"><span class="ll-word-picture" aria-hidden="true">${pic.iconMarkup || pic.emoji}</span><div class="ll-word-label"><h2 lang="en">${en}</h2>${pic.phonetic ? `<span class="ll-word-phonetic" lang="en">${pic.phonetic}</span>` : ""}</div></div><button class="ll-save" type="button" data-save="${i}" aria-pressed="${saved.includes(en)}" aria-label="${saved.includes(en) ? "Quitar de guardadas" : "Guardar"} ${en}">${saved.includes(en) ? "★" : "☆"}</button></div><p class="ll-trans">${es}</p><p lang="en">${example}</p>${action("sound-" + i, "Escuchar ejemplo")}${feedback()}`,
               );
             })
             .join("")

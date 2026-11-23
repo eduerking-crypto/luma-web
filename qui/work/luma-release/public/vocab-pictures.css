@@ -26,6 +26,11 @@
   line-height: 1;
   box-shadow: 0 2px 8px #34304f0a;
 }
+.ll-word-picture .luma-vocab-icon {
+  width: 62%;
+  height: 62%;
+  color: var(--violet, #6c5ce7);
+}
 .ll-word-phonetic {
   display: block;
   margin-top: 0.2rem;

@@ -42,6 +42,9 @@
     const sourceBadge = source !== "local" ? `<span class="vocab-source">${escapeHtml(source)}</span>` : "";
     const pic = window.LumaVocabPictures?.picture(word, category) || {
       emoji: "🔤",
+      icon: "circle-dot",
+      iconColor: "",
+      iconMarkup: "🔤",
       phonetic: "",
       html: "",
     };
@@ -50,7 +53,7 @@
       <div class="vocab-head">
         <div class="vocab-word-block">
           <div class="vocab-wordline">
-            <span class="vocab-picture" aria-hidden="true">${escapeHtml(pic.emoji)}</span>
+            <span class="vocab-picture" aria-hidden="true">${pic.iconMarkup || escapeHtml(pic.emoji)}</span>
             <div class="vocab-wordtext">
               <h3 lang="en">${escapeHtml(word)}${badge}${sourceBadge}</h3>
               ${pic.phonetic ? `<span class="vocab-phonetic" lang="en">${escapeHtml(pic.phonetic)}</span>` : ""}
