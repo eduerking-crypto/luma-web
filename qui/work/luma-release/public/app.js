@@ -43,6 +43,7 @@
     plants: ["How leaves feed a forest", "leaf", "La energía de las hojas"],
   };
   routes.verbs = ["Conjugador", "languages", "Verbos, tiempos y formas del inglés"];
+  routes.onboarding = ["Bienvenida", "door-enter", "Tu primer ingreso a Luma"];
   routes.vocabulary = ["Vocabulario", "layers-3", "Palabras para recordar y ampliar con APIs"];
   routes.topics = ["Explorador de temas", "shuffle", "Genera nuevas sesiones científicas a demanda"];
   routes.agents = ["Agentes de desarrollo", "bot", "Monitoreo y mejora continua automática"];
@@ -164,7 +165,9 @@
       connected = true;
       persist();
       chrome();
-      if (current === "home") home();
+      if (Object.hasOwn(state, "onboarded") && current === "onboarding")
+        go("home");
+      else if (current === "home") home();
       flush();
     } catch {}
   }
@@ -245,6 +248,8 @@
       "no-motion",
       !!get("reduceMotion", false),
     );
+    const days = streak();
+    // El rail lateral original se conserva tal cual en escritorio.
     rail.innerHTML = `<button class="brand" data-luma-go="home" aria-label="Luma, ir a inicio"><img src="assets/luma.svg" alt=""><span><b>Luma</b><small>Inglés con ciencia</small></span></button><nav>${[
       ["MI ESPACIO", ["home", "daily", "path", "library", "news"]],
       ["APRENDIZAJE", ["practice", "vocabulary", "topics", "verbs", "theory", "games", "exams", "tutor"]],
@@ -258,8 +263,25 @@
       .join(
         "",
       )}</nav><div class="rail-foot">${navItem("settings")}<button class="user-box" data-luma-go="settings"><span class="avatar">${escape([...name][0]?.toUpperCase())}</span><span><b>${escape(name.slice(0, 20))}</b><small>Mi perfil</small></span>${icon("chevron-right", 15)}</button></div>`;
-    const days = streak();
-    topbar.innerHTML = `<div class="crumb"><button id="menu-button" class="iconbtn mobile-menu" aria-expanded="${rail.classList.contains("open")}" aria-controls="rail" aria-label="Abrir navegación">${icon("menu", 22)}</button><span class="crumb-home">Mi espacio</span>${icon("chevron-right", 13).replace("l-icon", "l-icon crumb-divider")}<strong>${routes[current]?.[0] || "Inicio"}</strong></div><div class="top-actions"><button class="search-launch" data-action="search" aria-label="Buscar en Luma, Control K">${icon("search", 17)}<span>Buscar</span><kbd>Ctrl K</kbd></button><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days} ${days === 1 ? "día" : "días"}</button><button class="chip level" data-luma-go="settings" title="Cambiar nivel de inglés">${icon("chart-no-axes-column-increasing", 15)} Nivel ${level()}</button></div>`;
+    topbar.innerHTML = `<span class="top-brand" aria-hidden="true">${icon("sparkles", 18)}<b>Luma</b></span><div class="crumb"><button id="menu-button" class="iconbtn mobile-menu" aria-expanded="${rail.classList.contains("open")}" aria-controls="rail" aria-label="Abrir navegación">${icon("menu", 22)}</button><span class="crumb-home">Mi espacio</span>${icon("chevron-right", 13).replace("l-icon", "l-icon crumb-divider")}<strong>${routes[current]?.[0] || "Inicio"}</strong></div><div class="top-actions"><button class="search-launch" data-action="search" aria-label="Buscar en Luma, Control K">${icon("search", 17)}<span>Buscar</span><kbd>Ctrl K</kbd></button><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days} ${days === 1 ? "día" : "días"}</button><button class="chip level" data-luma-go="settings" title="Cambiar nivel de inglés">${icon("chart-no-axes-column-increasing", 15)} Nivel ${level()}</button></div>`;
+
+    // Barra inferior solo iconos, estilo Duolingo (móvil primero).
+    const bottomNav = [
+      ["home", "layout-dashboard", "Inicio"],
+      ["daily", "compass", "Sesi\u00f3n de hoy"],
+      ["practice", "shapes", "Pr\u00e1ctica"],
+      ["vocabulary", "layers-3", "Vocabulario"],
+      ["library", "library-big", "Biblioteca"],
+      ["settings", "user-round", "Perfil"],
+    ];
+    const bottom = document.getElementById("bottom-nav");
+    if (bottom)
+      bottom.innerHTML = bottomNav
+        .map(
+          ([id, glyph, label]) =>
+            `<button type="button" class="nav-item ${id === current ? "active" : ""}" ${id === current ? 'aria-current="page"' : ""} data-luma-go="${id}" aria-label="${label}" title="${label}">${icon(glyph, 25)}</button>`,
+        )
+        .join("");
   }
   function tile(id, size = 20) {
     const [tint, tone] = tones[id] || ["#eae6f7", "#6f609d"];
@@ -442,15 +464,18 @@
       <section class="panel install-panel" aria-labelledby="install-title"><div class="install-heading"><img src="assets/luma-192.png" alt=""><div><h2 id="install-title">Luma en tu dispositivo</h2><p data-install-status></p></div></div>
       <p class="status-text" data-offline-ready role="status"></p>
       <button type="button" class="outline-button" data-install-luma>${icon("download", 17)} Instalar Luma</button>
-      <div class="install-help" data-install-help tabindex="-1" hidden><p>En Chrome o Edge, abre el menú del navegador y busca la opción de instalar la aplicación. En Safari del iPhone o iPad, abre Compartir y elige «Añadir a pantalla de inicio».</p><p>Si estás usando el visor de Codex, abre el enlace en el navegador de tu dispositivo.</p></div></section>`;
+      <div class="install-help" data-install-help tabindex="-1" hidden><p>En Chrome o Edge, abre el menú del navegador y busca la opción de instalar la aplicación. En Safari del iPhone o iPad, abre Compartir y elige «Añadir a pantalla de inicio».</p><p>Si estás usando el visor de Codex, abre el enlace en el navegador de tu dispositivo.</p></div></section>
+      <div class="panel settings-grid"><h2>Introducci\u00f3n</h2><button type="button" class="outline-button" data-luma-go="onboarding">${icon("sparkles", 16)} Ver la introducci\u00f3n otra vez</button><p class="status-text">Repite la bienvenida para cambiar tu nombre, nivel, disciplina u objetivo.</p></div>`;
     window.LumaInstall?.update();
   }
   const narrow = window.matchMedia("(max-width:740px)");
   function syncDrawer() {
-    const opened = rail.classList.contains("open") && narrow.matches;
-    rail.inert = narrow.matches && !opened;
-    document.querySelector(".stage").inert = opened;
-    document.getElementById("shade").hidden = !opened;
+    // La navegación inferior siempre debe ser interactiva: nunca la marcamos
+    // como inert en móvil (antes el drawer lateral la desactivaba por error).
+    rail.inert = false;
+    const stage = document.querySelector(".stage");
+    if (stage) stage.inert = false;
+    document.getElementById("shade").hidden = true;
   }
   narrow.addEventListener("change", () => {
     closeMenu();
@@ -465,6 +490,7 @@
   }
   function go(id) {
     if (!Object.hasOwn(routes, id)) id = "home";
+    if (!Object.hasOwn(state, "onboarded") && id !== "onboarding") id = "onboarding";
     finder.close();
     document.getElementById("topics").close();
     closeMenu();
@@ -492,6 +518,7 @@
     window.LumaLearn?.dispose?.();
     window.LumaScience?.dispose?.();
     window.LumaLibrary?.dispose?.();
+    window.LumaOnboarding?.dispose?.();
     if (prior && prior !== id) window.speechSynthesis?.cancel();
     current = id;
     chrome();
@@ -517,6 +544,8 @@
       window.LumaAgentsUI.render(root, api);
     else if (id === "games")
       window.LumaGames.render(root, api);
+    else if (id === "onboarding")
+      window.LumaOnboarding.render(root, api);
     else window.LumaLearn.render(id, root, api);
     window.scrollTo(0, 0);
     if (prior) root.focus({ preventScroll: true });
@@ -633,7 +662,12 @@
       document.getElementById("menu-button")?.focus();
     }
   });
-  window.addEventListener("hashchange", () => render(location.hash.slice(1)));
+  window.addEventListener("hashchange", () => {
+    const id = location.hash.slice(1);
+    if (!Object.hasOwn(state, "onboarded") && id !== "onboarding")
+      render("onboarding");
+    else render(id);
+  });
   window.addEventListener("online", hydrate);
   window.addEventListener("focus", () => {
     if (connected) flush();
@@ -645,6 +679,12 @@
   } else {
     hydrate();
   }
-  render(location.hash.slice(1) || "home");
+  if (Object.hasOwn(state, "onboarded")) {
+    render(location.hash.slice(1) || "home");
+  } else if (location.hash.slice(1) === "onboarding") {
+    render("onboarding");
+  } else {
+    location.hash = "onboarding"; // hashchange dispara y respeta firstSync
+  }
   syncDrawer();
 })();
