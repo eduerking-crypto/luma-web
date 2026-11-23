@@ -263,6 +263,23 @@
       )}</nav><div class="rail-foot">${navItem("settings")}<button class="user-box" data-luma-go="settings"><span class="avatar">${escape([...name][0]?.toUpperCase())}</span><span><b>${escape(name.slice(0, 20))}</b><small>Mi perfil</small></span>${icon("chevron-right", 15)}</button></div>`;
     const days = streak();
     topbar.innerHTML = `<div class="crumb"><button id="menu-button" class="iconbtn mobile-menu" aria-expanded="${rail.classList.contains("open")}" aria-controls="rail" aria-label="Abrir navegación">${icon("menu", 22)}</button><span class="crumb-home">Mi espacio</span>${icon("chevron-right", 13).replace("l-icon", "l-icon crumb-divider")}<strong>${routes[current]?.[0] || "Inicio"}</strong></div><div class="top-actions"><button class="search-launch" data-action="search" aria-label="Buscar en Luma, Control K">${icon("search", 17)}<span>Buscar</span><kbd>Ctrl K</kbd></button><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days} ${days === 1 ? "día" : "días"}</button><button class="chip level" data-luma-go="settings" title="Cambiar nivel de inglés">${icon("chart-no-axes-column-increasing", 15)} Nivel ${level()}</button></div>`;
+
+    // --- Navegación inferior estilo Duolingo (solo figuras, móvil primero) ---
+    const nav = [
+      ["home", "layout-dashboard", "Inicio"],
+      ["daily", "compass", "Sesi\u00f3n de hoy"],
+      ["practice", "shapes", "Pr\u00e1ctica"],
+      ["vocabulary", "layers-3", "Vocabulario"],
+      ["library", "library-big", "Biblioteca"],
+      ["settings", "user-round", "Perfil"],
+    ];
+    rail.innerHTML = nav
+      .map(
+        ([id, glyph, label]) =>
+          `<button type="button" class="nav-item ${id === current ? "active" : ""}" ${id === current ? 'aria-current="page"' : ""} data-luma-go="${id}" aria-label="${label}" title="${label}">${icon(glyph, 25)}</button>`,
+      )
+      .join("");
+    topbar.innerHTML = `<span class="top-brand">${icon("sparkles", 18)}<b>Luma</b></span><div class="top-actions"><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days}</button><button class="chip level" data-luma-go="settings" title="Cambiar de nivel">${level()}</button></div>`;
   }
   function tile(id, size = 20) {
     const [tint, tone] = tones[id] || ["#eae6f7", "#6f609d"];

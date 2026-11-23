@@ -1,0 +1,114 @@
+/* Bottom Navigation Bar - estilo Duolingo, solo figuras, móvil primero */
+body { padding-bottom: 72px; }
+html, body { overflow-x: hidden; }
+
+/* Desactiva el rail lateral en móvil */
+@media (max-width: 740px) {
+  #rail {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: auto;
+    height: 72px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 6px 8px;
+    background: #fff;
+    border-right: none;
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -2px 12px #00000008;
+    z-index: 50;
+    overflow: visible;
+    padding-top: 4px;
+    padding-bottom: env(safe-area-inset-bottom, 10px);
+  }
+  #rail > button.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 4px;
+    min-height: 60px;
+    border-radius: 14px;
+    font-size: 0;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    gap: 2px;
+  }
+  #rail > button.nav-item svg { width: 26px; height: 26px; stroke-width: 2; }
+  #rail > button.nav-item.active {
+    color: var(--violet);
+    background: var(--pale);
+  }
+  #rail > button.nav-item.active svg { stroke: var(--violet); }
+
+  /* Topbar compacta */
+  #topbar {
+    height: 56px;
+    padding: 0 14px;
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background-image: linear-gradient(to bottom, #fff 60%, transparent);
+  }
+  .top-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.1rem; color: var(--ink); }
+  .top-brand svg { width: 22px; height: 22px; color: var(--violet); }
+  .top-actions { display: flex; gap: 8px; }
+  .top-actions .chip { min-width: auto; padding: 6px 10px; font-size: 0.8rem; }
+  .chip.streak, .chip.level { display: inline-flex; align-items: center; gap: 4px; }
+  .chip.streak svg, .chip.level svg { width: 16px; height: 16px; }
+  #menu-button { display: none !important; }
+  .crumb { display: none !important; }
+
+  /* Espacio para la barra inferior */
+  .stage { margin-left: 0; padding-bottom: 78px; }
+  #content { padding-bottom: 12px; }
+
+  /* Onboarding: margen inferior */
+  .ob-overlay { padding-bottom: 84px; }
+  .ob-card { max-width: 100%; border-radius: 18px; margin: 12px; }
+
+  /* Ajuste tarjetas en home */
+  .hero-grid { display: block; }
+  .tutor-card { display: none; }
+  .featured-reads { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .featured-read img { aspect-ratio: 3/2; object-fit: cover; }
+  .featured-read b { font-size: 0.85rem; line-height: 1.2; }
+  .practice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .practice-card { text-align: center; padding: 12px 8px; }
+  .practice-card .icon-tile { margin-bottom: 6px; }
+  .practice-card h3 { font-size: 0.85rem; margin-bottom: 2px; }
+  .practice-card p { font-size: 0.72rem; margin: 0; }
+}
+
+/* Topbar en desktop (mantenida) */
+@media (min-width: 741px) {
+  #topbar { display: flex; }
+  .crumb { display: flex; }
+  .stage { margin-left: var(--rail); }
+  body { padding-bottom: 0; }
+}
+
+/* Botones de nav */
+.nav-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+}
+.nav-item.active {
+  background: var(--pale);
+  color: var(--violet);
+}
