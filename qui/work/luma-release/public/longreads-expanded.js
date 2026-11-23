@@ -9,7 +9,7 @@
       id: "deep-sea-vents",
       title: "Life Without Sunlight",
       theme: "Biología marina · Oceanografía",
-      image: "vents",
+      image: "ocean",
       description: "Descubre ecosistemas que prosperan en la oscuridad total, alimentados por química en lugar de luz solar.",
       sources: [
         ["NOAA Ocean Explorer · Hydrothermal Vents", "https://oceanexplorer.noaa.gov/edu/learning/vents/vents.html"],
@@ -70,7 +70,7 @@
       id: "crispR-cas9",
       title: "Rewriting the Code of Life",
       theme: "Biología molecular · Genética",
-      image: "crispr",
+      image: "ink",
       description: "Cómo un sistema inmune bacteriano se convirtió en la herramienta de edición genética más poderosa.",
       sources: [
         ["Broad Institute · What is CRISPR?", "https://www.broadinstitute.org/what-crispr"],
@@ -131,7 +131,7 @@
       id: "quantum-entanglement",
       title: "Spooky Action at a Distance",
       theme: "Física cuántica",
-      image: "quantum",
+      image: "physics",
       description: "El fenómeno que Einstein llamó 'fantasmal' y que ahora permite computación cuántica y teleportación.",
       sources: [
         ["NIST · Quantum Entanglement", "https://www.nist.gov/topics/quantum-entanglement"],
@@ -192,7 +192,7 @@
       id: "human-microbiome",
       title: "The Universe Within",
       theme: "Microbiología · Salud humana",
-      image: "microbiome",
+      image: "sample",
       description: "Billones de microbios viven en ti: descubren cómo afectan tu digestión, inmunidad e incluso tu estado de ánimo.",
       sources: [
         ["NIH Human Microbiome Project", "https://hmpdacc.org/"],
@@ -254,7 +254,7 @@
       id: "dark-matter",
       title: "The Invisible Universe",
       theme: "Astrofísica · Cosmología",
-      image: "darkmatter",
+      image: "nebula",
       description: "El 85% de la materia del universo no emite luz. Exploramos la evidencia y los candidatos: WIMPs, axiones, y más.",
       sources: [
         ["NASA · Dark Matter", "https://science.nasa.gov/astrophysics/focus-areas/what-is-dark-matter/"],

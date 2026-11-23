@@ -214,11 +214,21 @@
     ].join("-");
   };
   function catalog() {
-    const extra = ["physics", "chemistry", "math", "earth"].map((id) => {
-      const topic = window.LumaDailyData.topics[id];
-      return [id, { ...topic, description: topic.prompt, isSession: true }];
-    });
-    const long = Object.fromEntries(window.LumaFeatures.map(story=>["fondo-"+story.id,{...story, isLong:true}]));
+    // Las sesiones breves se toman del catálogo diario. Se filtran las claves
+    // ausentes para que un cambio de ciencias nunca deje la biblioteca vacía.
+    const topics = window.LumaDailyData?.topics || {};
+    const extra = ["physics", "chemistry", "math", "engineering"]
+      .filter((id) => topics[id])
+      .map((id) => {
+        const topic = topics[id];
+        return [id, { ...topic, description: topic.prompt, isSession: true }];
+      });
+    const long = Object.fromEntries(
+      (window.LumaFeatures || []).map((story) => [
+        "fondo-" + story.id,
+        { ...story, isLong: true },
+      ]),
+    );
     return { ...books, ...Object.fromEntries(extra), ...long };
   }
   function bookmark(id, api) {
