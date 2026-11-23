@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f8f9fc" />
+    <meta
+      name="description"
+      content="Aprende inglés mientras exploras la ciencia. Lee artículos, practica a tu nivel y repasa con Lumi."
+    />
+    <title>Luma · Inglés con ciencia</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="assets/luma-touch.png" />
+    <link rel="icon" type="image/svg+xml" href="assets/luma.svg" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/ttf"
+      href="assets/dm-sans.ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="learn.css" />
+    <link rel="stylesheet" href="science.css" />
+    <link rel="stylesheet" href="library.css" />
+    <script defer src="assets/icons.js"></script>
+    <link rel="stylesheet" href="verbs.css" />
+    <link rel="stylesheet" href="theory.css" />
+    <link rel="stylesheet" href="features.css" />
+    <link rel="stylesheet" href="onboarding.css" />
+    <link rel="stylesheet" href="vocab-expanded.css" />
+    <link rel="stylesheet" href="topics-expanded.css" />
+    <link rel="stylesheet" href="agents-ui.css" />
+    <link rel="stylesheet" href="mobile-nav.css" />
+    <script defer src="verbs-data.js"></script>
+    <script defer src="verbs-data-extended.js"></script>
+    <script defer src="verbs.js"></script>
+    <script defer src="vocab-extra.js"></script>
+    <script defer src="vocab-api.js"></script>
+    <script defer src="vocab-expanded.js"></script>
+    <script defer src="topics-expanded.js"></script>
+    <script defer src="agents.js"></script>
+    <script defer src="agents-ui.js"></script>
+    <script defer src="games-expanded.js"></script>
+    <script defer src="theory-data.js"></script>
+    <script defer src="features-data.js"></script>
+    <script defer src="features.js"></script>
+    <script defer src="longreads-expanded.js"></script>
+    <script defer src="learn.js"></script>
+    <script defer src="science.js"></script>
+    <script defer src="library.js"></script>
+    <link rel="stylesheet" href="daily.css" />
+    <script defer src="daily-data.js"></script>
+    <script defer src="daily.js"></script>
+    <script defer src="install.js"></script>
+    <script defer src="onboarding.js?v=4"></script>
+    <script defer src="app.js?v=5"></script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Saltar al contenido</a>
+    <div id="shade" hidden></div>
+    <aside id="rail" aria-label="Navegación principal"></aside>
+    <div class="stage">
+      <header class="topbar" id="topbar"></header>
+      <main id="content" tabindex="-1"></main>
+    </div>
+    <dialog id="topics" aria-labelledby="topics-title">
+      <div class="finder-head">
+        <h2 id="topics-title">Elige tu tema</h2>
+        <button
+          class="iconbtn"
+          type="button"
+          data-action="close-topics"
+          aria-label="Cerrar selección"
+        >
+          ×
+        </button>
+      </div>
+      <p>Elige la ciencia que quieres explorar en tu sesión de hoy.</p>
+      <div class="topic-options"></div>
+    </dialog>
+    <dialog id="finder" aria-labelledby="search-heading">
+      <div class="finder-head">
+        <h2 id="search-heading">Buscar en Luma</h2>
+        <button class="iconbtn" id="close-search" aria-label="Cerrar búsqueda">
+          ×
+        </button>
+      </div>
+      <label class="field"
+        ><span>Artículo, actividad o tema</span
+        ><input
+          id="query"
+          type="search"
+          placeholder="Prueba con «lectura» o «estrellas»"
+          autocomplete="off"
+      /></label>
+      <div id="matches"></div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
