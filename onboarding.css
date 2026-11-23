@@ -3,7 +3,8 @@
    No redefine el diseño general, solo el panel de ingreso. */
 
 body.ob-active #rail,
-body.ob-active #topbar {
+body.ob-active #topbar,
+body.ob-active #bottom-nav {
   display: none;
 }
 body.ob-active #toast {

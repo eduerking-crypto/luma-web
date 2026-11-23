@@ -248,6 +248,8 @@
       "no-motion",
       !!get("reduceMotion", false),
     );
+    const days = streak();
+    // El rail lateral original se conserva tal cual en escritorio.
     rail.innerHTML = `<button class="brand" data-luma-go="home" aria-label="Luma, ir a inicio"><img src="assets/luma.svg" alt=""><span><b>Luma</b><small>Inglés con ciencia</small></span></button><nav>${[
       ["MI ESPACIO", ["home", "daily", "path", "library", "news"]],
       ["APRENDIZAJE", ["practice", "vocabulary", "topics", "verbs", "theory", "games", "exams", "tutor"]],
@@ -261,11 +263,10 @@
       .join(
         "",
       )}</nav><div class="rail-foot">${navItem("settings")}<button class="user-box" data-luma-go="settings"><span class="avatar">${escape([...name][0]?.toUpperCase())}</span><span><b>${escape(name.slice(0, 20))}</b><small>Mi perfil</small></span>${icon("chevron-right", 15)}</button></div>`;
-    const days = streak();
-    topbar.innerHTML = `<div class="crumb"><button id="menu-button" class="iconbtn mobile-menu" aria-expanded="${rail.classList.contains("open")}" aria-controls="rail" aria-label="Abrir navegación">${icon("menu", 22)}</button><span class="crumb-home">Mi espacio</span>${icon("chevron-right", 13).replace("l-icon", "l-icon crumb-divider")}<strong>${routes[current]?.[0] || "Inicio"}</strong></div><div class="top-actions"><button class="search-launch" data-action="search" aria-label="Buscar en Luma, Control K">${icon("search", 17)}<span>Buscar</span><kbd>Ctrl K</kbd></button><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days} ${days === 1 ? "día" : "días"}</button><button class="chip level" data-luma-go="settings" title="Cambiar nivel de inglés">${icon("chart-no-axes-column-increasing", 15)} Nivel ${level()}</button></div>`;
+    topbar.innerHTML = `<span class="top-brand" aria-hidden="true">${icon("sparkles", 18)}<b>Luma</b></span><div class="crumb"><button id="menu-button" class="iconbtn mobile-menu" aria-expanded="${rail.classList.contains("open")}" aria-controls="rail" aria-label="Abrir navegación">${icon("menu", 22)}</button><span class="crumb-home">Mi espacio</span>${icon("chevron-right", 13).replace("l-icon", "l-icon crumb-divider")}<strong>${routes[current]?.[0] || "Inicio"}</strong></div><div class="top-actions"><button class="search-launch" data-action="search" aria-label="Buscar en Luma, Control K">${icon("search", 17)}<span>Buscar</span><kbd>Ctrl K</kbd></button><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days} ${days === 1 ? "día" : "días"}</button><button class="chip level" data-luma-go="settings" title="Cambiar nivel de inglés">${icon("chart-no-axes-column-increasing", 15)} Nivel ${level()}</button></div>`;
 
-    // --- Navegación inferior estilo Duolingo (solo figuras, móvil primero) ---
-    const nav = [
+    // Barra inferior solo iconos, estilo Duolingo (móvil primero).
+    const bottomNav = [
       ["home", "layout-dashboard", "Inicio"],
       ["daily", "compass", "Sesi\u00f3n de hoy"],
       ["practice", "shapes", "Pr\u00e1ctica"],
@@ -273,13 +274,14 @@
       ["library", "library-big", "Biblioteca"],
       ["settings", "user-round", "Perfil"],
     ];
-    rail.innerHTML = nav
-      .map(
-        ([id, glyph, label]) =>
-          `<button type="button" class="nav-item ${id === current ? "active" : ""}" ${id === current ? 'aria-current="page"' : ""} data-luma-go="${id}" aria-label="${label}" title="${label}">${icon(glyph, 25)}</button>`,
-      )
-      .join("");
-    topbar.innerHTML = `<span class="top-brand">${icon("sparkles", 18)}<b>Luma</b></span><div class="top-actions"><button class="chip streak" data-luma-go="streak" title="Ver mi racha">${icon("flame", 15)} ${days}</button><button class="chip level" data-luma-go="settings" title="Cambiar de nivel">${level()}</button></div>`;
+    const bottom = document.getElementById("bottom-nav");
+    if (bottom)
+      bottom.innerHTML = bottomNav
+        .map(
+          ([id, glyph, label]) =>
+            `<button type="button" class="nav-item ${id === current ? "active" : ""}" ${id === current ? 'aria-current="page"' : ""} data-luma-go="${id}" aria-label="${label}" title="${label}">${icon(glyph, 25)}</button>`,
+        )
+        .join("");
   }
   function tile(id, size = 20) {
     const [tint, tone] = tones[id] || ["#eae6f7", "#6f609d"];
@@ -468,10 +470,12 @@
   }
   const narrow = window.matchMedia("(max-width:740px)");
   function syncDrawer() {
-    const opened = rail.classList.contains("open") && narrow.matches;
-    rail.inert = narrow.matches && !opened;
-    document.querySelector(".stage").inert = opened;
-    document.getElementById("shade").hidden = !opened;
+    // La navegación inferior siempre debe ser interactiva: nunca la marcamos
+    // como inert en móvil (antes el drawer lateral la desactivaba por error).
+    rail.inert = false;
+    const stage = document.querySelector(".stage");
+    if (stage) stage.inert = false;
+    document.getElementById("shade").hidden = true;
   }
   narrow.addEventListener("change", () => {
     closeMenu();
