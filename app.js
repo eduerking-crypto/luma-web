@@ -495,10 +495,6 @@
         .join(
           "",
         )}</select></label><label class="field full"><span>Actividades al día</span><select name="goal">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${Number(get("goal", 3)) === n ? "selected" : ""}>${n} ${n === 1 ? "actividad" : "actividades"}</option>`).join("")}</select></label></div><div class="panel settings-grid"><h2>Lectura y movimiento</h2><label class="check-row"><input type="checkbox" name="large" ${get("largeText", false) ? "checked" : ""}>Texto más grande</label><label class="check-row"><input type="checkbox" name="reduced" ${get("reduceMotion", false) ? "checked" : ""}>Reducir animaciones</label></div><button class="solid-button" type="submit">${icon("check", 16)} Guardar cambios</button></form>
-      <section class="panel install-panel" aria-labelledby="install-title"><div class="install-heading"><img src="assets/luma-192.png" alt=""><div><h2 id="install-title">Luma en tu dispositivo</h2><p data-install-status></p></div></div>
-      <p class="status-text" data-offline-ready role="status"></p>
-      <button type="button" class="outline-button" data-install-luma>${icon("download", 17)} Instalar Luma</button>
-      <div class="install-help" data-install-help tabindex="-1" hidden><p>En Chrome o Edge, abre el menú del navegador y busca la opción de instalar la aplicación. En Safari del iPhone o iPad, abre Compartir y elige «Añadir a pantalla de inicio».</p><p>Si estás usando el visor de Codex, abre el enlace en el navegador de tu dispositivo.</p></div></section>
       <div class="panel settings-grid"><h2>Introducci\u00f3n</h2><button type="button" class="outline-button" data-luma-go="onboarding">${icon("sparkles", 16)} Ver la introducci\u00f3n otra vez</button><p class="status-text">Repite la bienvenida para cambiar tu nombre, nivel, disciplina u objetivo.</p></div>`;
     const interestSelect = root.querySelector('[name="interest"]');
     const branchSelect = root.querySelector("#settings-branch");
@@ -518,7 +514,6 @@
     }
     syncBranchOptions(get("scienceBranch", ""));
     interestSelect.onchange = () => syncBranchOptions("");
-    window.LumaInstall?.update();
   }
   const narrow = window.matchMedia("(max-width:740px)");
   function syncDrawer() {
@@ -674,7 +669,6 @@
       root.querySelector("[data-action=topics]")?.focus();
       return;
     }
-    if (btn.hasAttribute("data-install-luma")) window.LumaInstall.install();
   });
   document.addEventListener("submit", (e) => {
     if (e.target.id !== "settings-form") return;
